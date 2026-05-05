@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ランチマップ — エリアを選んでランチを探す">
+  <title>エリアを選ぶ — ランチマップ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design-system/style.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <button class="btn btn-ghost btn-sm" id="back-btn">← 戻る</button>
+      <span class="header-title">エリアを選ぶ</span>
+      <div class="header-spacer"></div>
+    </div>
+  </header>
+
+  <div class="page-content">
+    <div class="main">
+
+      <!-- Step Indicator -->
+      <div class="area-steps" id="step-indicator">
+        <div class="area-step active" id="step-1">
+          <div class="area-step-num">1</div>
+          <span>都道府県</span>
+        </div>
+        <div class="area-step-connector"></div>
+        <div class="area-step" id="step-2">
+          <div class="area-step-num">2</div>
+          <span>路線</span>
+        </div>
+        <div class="area-step-connector"></div>
+        <div class="area-step" id="step-3">
+          <div class="area-step-num">3</div>
+          <span>駅</span>
+        </div>
+      </div>
+
+      <!-- Breadcrumb bar -->
+      <div class="pref-breadcrumb" id="breadcrumb" style="display:none;">
+        <span class="breadcrumb-item" id="bc-pref"></span>
+        <span class="breadcrumb-sep" id="bc-sep-1" style="display:none;">›</span>
+        <span class="breadcrumb-item" id="bc-line" style="display:none;"></span>
+      </div>
+
+      <!-- Panel 1: 都道府県 -->
+      <div id="panel-pref" class="area-panel">
+        <div class="area-panel-header">都道府県を選んでください</div>
+
+        <div class="area-region-group">
+          <div class="area-region-title">北海道・東北</div>
+          <div class="area-grid">
+            <button class="area-item" data-pref="hokkaido">北海道</button>
+            <button class="area-item" data-pref="aomori">青森</button>
+            <button class="area-item" data-pref="iwate">岩手</button>
+            <button class="area-item" data-pref="miyagi">宮城</button>
+            <button class="area-item" data-pref="akita">秋田</button>
+            <button class="area-item" data-pref="yamagata">山形</button>
+            <button class="area-item" data-pref="fukushima">福島</button>
+          </div>
+        </div>
+
+        <div class="area-region-group">
+          <div class="area-region-title">関東</div>
+          <div class="area-grid">
+            <button class="area-item" data-pref="tokyo">東京都</button>
+            <button class="area-item" data-pref="kanagawa">神奈川</button>
+            <button class="area-item" data-pref="chiba">千葉</button>
+            <button class="area-item" data-pref="saitama">埼玉</button>
+            <button class="area-item" data-pref="ibaraki">茨城</button>
+            <button class="area-item" data-pref="tochigi">栃木</button>
+            <button class="area-item" data-pref="gunma">群馬</button>
+            <button class="area-item" data-pref="yamanashi">山梨</button>
+          </div>
+        </div>
+
+        <div class="area-region-group">
+          <div class="area-region-title">中部・東海</div>
+          <div class="area-grid">
+            <button class="area-item" data-pref="aichi">愛知</button>
+            <button class="area-item" data-pref="shizuoka">静岡</button>
+            <button class="area-item" data-pref="gifu">岐阜</button>
+            <button class="area-item" data-pref="mie">三重</button>
+            <button class="area-item" data-pref="niigata">新潟</button>
+            <button class="area-item" data-pref="nagano">長野</button>
+            <button class="area-item" data-pref="toyama">富山</button>
+            <button class="area-item" data-pref="ishikawa">石川</button>
+            <button class="area-item" data-pref="fukui">福井</button>
+          </div>
+        </div>
+
+        <div class="area-region-group">
+          <div class="area-region-title">近畿</div>
+          <div class="area-grid">
+            <button class="area-item" data-pref="osaka">大阪府</button>
+            <button class="area-item" data-pref="kyoto">京都府</button>
+            <button class="area-item" data-pref="hyogo">兵庫</button>
+            <button class="area-item" data-pref="nara">奈良</button>
+            <button class="area-item" data-pref="shiga">滋賀</button>
+            <button class="area-item" data-pref="wakayama">和歌山</button>
+          </div>
+        </div>
+
+        <div class="area-region-group">
+          <div class="area-region-title">中国・四国・九州・沖縄</div>
+          <div class="area-grid">
+            <button class="area-item" data-pref="hiroshima">広島</button>
+            <button class="area-item" data-pref="okayama">岡山</button>
+            <button class="area-item" data-pref="fukuoka">福岡</button>
+            <button class="area-item" data-pref="kagoshima">鹿児島</button>
+            <button class="area-item" data-pref="okinawa">沖縄</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: 路線（初期非表示） -->
+      <div id="panel-line" class="area-panel" style="display:none;">
+        <div class="area-panel-header" id="line-panel-header">路線を選んでください</div>
+        <div class="area-list" id="line-list"></div>
+      </div>
+
+      <!-- Panel 3: 駅（初期非表示） -->
+      <div id="panel-station" class="area-panel" style="display:none;">
+        <div class="area-panel-header" id="station-panel-header">駅を選んでください</div>
+        <div class="area-list" id="station-list"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a class="bottom-nav-item" href="../index.html">
+      <div class="bottom-nav-icon">🗺️</div>
+      <div>ホーム</div>
+    </a>
+    <a class="bottom-nav-item active" href="../area/index.html">
+      <div class="bottom-nav-icon">🔍</div>
+      <div>エリア</div>
+    </a>
+    <a class="bottom-nav-item" href="../post/index.html">
+      <div class="bottom-nav-icon">＋</div>
+      <div>投稿</div>
+    </a>
+    <a class="bottom-nav-item" href="../mypage/index.html">
+      <div class="bottom-nav-icon">👤</div>
+      <div>マイページ</div>
+    </a>
+  </nav>
+
+  <script src="../jquery-4.0.0.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

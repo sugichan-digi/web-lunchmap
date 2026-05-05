@@ -1,0 +1,37 @@
+/* ===== Area Page Styles ===== */
+
+.header-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  flex: 1;
+}
+
+.header-spacer { width: 60px; }
+
+.area-steps {
+  margin-bottom: var(--space-4);
+}
+
+/* Breadcrumb */
+.pref-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-warm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-4);
+  font-size: 13px;
+}
+
+.breadcrumb-item {
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+.breadcrumb-sep {
+  color: var(--text-muted);
+}
