@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ランチマップ デザインシステム（UIコンポーネント・スタイル一覧）">
+  <meta name="robots" content="noindex,nofollow">
+  <title>デザインシステム — ランチマップ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== DS Catalog Specific ===== */
+    .ds-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--space-10) var(--space-5);
+    }
+
+    .ds-page-header {
+      margin-bottom: var(--space-10);
+      padding-bottom: var(--space-5);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .ds-page-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: var(--space-2);
+    }
+
+    .ds-section {
+      margin-bottom: var(--space-16);
+    }
+
+    .ds-section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: var(--space-5);
+      padding-bottom: var(--space-2);
+      border-bottom: 2px solid var(--border);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .ds-section-title .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-full);
+      background: var(--primary);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .ds-sub-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: var(--space-3);
+      margin-top: var(--space-5);
+    }
+
+    .ds-showcase {
+      padding: var(--space-6);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    .ds-showcase-col {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .ds-showcase-bg {
+      background: var(--bg);
+    }
+
+    /* Color Grid */
+    .ds-color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .ds-color-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .ds-swatch {
+      height: 72px;
+      width: 100%;
+    }
+
+    .ds-color-info {
+      padding: var(--space-3);
+      font-size: 12px;
+    }
+
+    .ds-color-name { font-weight: 700; margin-bottom: 2px; }
+    .ds-color-var  { color: var(--text-muted); font-family: monospace; font-size: 10px; }
+    .ds-color-hex  { color: var(--text-light); font-family: monospace; font-size: 10px; margin-top: 1px; }
+
+    /* Token Table */
+    .ds-token-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .ds-token-table th {
+      text-align: left;
+      padding: var(--space-2) var(--space-3);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 12px;
+    }
+    .ds-token-table td {
+      padding: var(--space-3) var(--space-3);
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .ds-token-table tr:last-child td { border-bottom: none; }
+    .ds-token-table code {
+      font-family: monospace;
+      font-size: 11px;
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--primary);
+    }
+
+    /* Spacing Visual */
+    .ds-spacing-demo {
+      display: flex;
+      gap: var(--space-4);
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .ds-space-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .ds-space-bar {
+      background: var(--primary-light);
+      border: 1px solid var(--primary);
+      border-radius: 2px;
+      height: 40px;
+    }
+
+    .ds-space-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Radius Demo */
+    .ds-radius-demo {
+      display: flex;
+      gap: var(--space-4);
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .ds-radius-box {
+      width: 80px;
+      height: 60px;
+      background: var(--primary-light);
+      border: 2px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--primary);
+      font-weight: 700;
+      gap: 3px;
+    }
+
+    /* Shadow Demo */
+    .ds-shadow-demo {
+      display: flex;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+    }
+
+    .ds-shadow-box {
+      width: 100px;
+      height: 80px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 600;
+      gap: 4px;
+    }
+
+    .ds-shadow-name { font-size: 11px; font-family: monospace; }
+
+    /* Typography Preview */
+    .ds-type-item { margin-bottom: var(--space-4); }
+    .ds-type-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-family: monospace;
+    }
+
+    /* Mock Phone Frame */
+    .mock-phone {
+      border: 2px solid var(--border-strong);
+      border-radius: 24px;
+      overflow: hidden;
+      width: 320px;
+      box-shadow: var(--shadow-lg);
+      background: var(--bg);
+      flex-shrink: 0;
+    }
+
+    .mock-phone-notch {
+      height: 28px;
+      background: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mock-phone-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .mock-phone-body { padding: 0; overflow: hidden; }
+  </style>
+</head>
+<body>
+
+<div class="ds-container">
+
+  <!-- Page Header -->
+  <div class="ds-page-header">
+    <div class="ds-page-title">🍱 ランチマップ — デザインシステム</div>
+    <p class="text-muted" style="font-size:14px; margin-top:4px;">UIコンポーネント・デザイントークン・スタイルガイドライン</p>
+    <p style="font-size:12px; color:var(--text-light); margin-top:8px;">実装技術: HTML / CSS / jQuery　｜　ターゲット: お昼時のサラリーマン（スマホ利用）</p>
+  </div>
+
+  <!-- ===== 1. カラーパレット ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">1</span> カラーパレット</h2>
+
+    <div class="ds-sub-title">Primary & Accent</div>
+    <div class="ds-color-grid" style="margin-bottom:var(--space-5);">
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--primary)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Primary</div>
+          <div class="ds-color-var">var(--primary)</div>
+          <div class="ds-color-hex">#F4632A</div>
+        </div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--primary-hover)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Primary Hover</div>
+          <div class="ds-color-var">var(--primary-hover)</div>
+          <div class="ds-color-hex">#D94E1E</div>
+        </div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--primary-light)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Primary Light</div>
+          <div class="ds-color-var">var(--primary-light)</div>
+          <div class="ds-color-hex">#FFF1EB</div>
+        </div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--accent)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Accent</div>
+          <div class="ds-color-var">var(--accent)</div>
+          <div class="ds-color-hex">#F59E0B</div>
+        </div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--heart)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Heart / Like</div>
+          <div class="ds-color-var">var(--heart)</div>
+          <div class="ds-color-hex">#EF4444</div>
+        </div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--price-tag)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Price Tag</div>
+          <div class="ds-color-var">var(--price-tag)</div>
+          <div class="ds-color-hex">#059669</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">Badge Colors</div>
+    <div class="ds-color-grid" style="margin-bottom:var(--space-5);">
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--badge-new)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Badge New</div>
+          <div class="ds-color-var">var(--badge-new)</div>
+          <div class="ds-color-hex">#8B5CF6</div>
+        </div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--badge-popular)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Badge Popular</div>
+          <div class="ds-color-var">var(--badge-popular)</div>
+          <div class="ds-color-hex">#F59E0B</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">Background & Surface</div>
+    <div class="ds-color-grid" style="margin-bottom:var(--space-5);">
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--bg); border-bottom:1px solid var(--border)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Background</div>
+          <div class="ds-color-var">var(--bg)</div>
+          <div class="ds-color-hex">#FDF8F5</div>
+        </div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--surface); border-bottom:1px solid var(--border)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Surface</div>
+          <div class="ds-color-var">var(--surface)</div>
+          <div class="ds-color-hex">#FFFFFF</div>
+        </div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--surface-warm)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Surface Warm</div>
+          <div class="ds-color-var">var(--surface-warm)</div>
+          <div class="ds-color-hex">#FFF4EE</div>
+        </div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--text)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Text</div>
+          <div class="ds-color-var">var(--text)</div>
+          <div class="ds-color-hex">#1C1917</div>
+        </div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--text-muted)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Text Muted</div>
+          <div class="ds-color-var">var(--text-muted)</div>
+          <div class="ds-color-hex">#78716C</div>
+        </div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--border); border-bottom:1px solid var(--border-strong)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Border</div>
+          <div class="ds-color-var">var(--border)</div>
+          <div class="ds-color-hex">#E7E5E4</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">Semantic Colors</div>
+    <div class="ds-color-grid">
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--success)"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Success</div><div class="ds-color-hex">#16A34A</div></div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--warning)"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Warning</div><div class="ds-color-hex">#D97706</div></div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--danger)"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Danger</div><div class="ds-color-hex">#DC2626</div></div>
+      </div>
+      <div class="ds-color-card">
+        <div class="ds-swatch" style="background:var(--info)"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Info</div><div class="ds-color-hex">#0284C7</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 2. タイポグラフィ ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">2</span> タイポグラフィ</h2>
+
+    <div class="ds-sub-title">Font Stack</div>
+    <div class="ds-showcase ds-showcase-col" style="margin-bottom:var(--space-5);">
+      <div>
+        <div class="ds-type-label">--font-base</div>
+        <div style="font-size:13px;color:var(--primary);font-family:monospace;">'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', -apple-system, sans-serif</div>
+      </div>
+      <div style="margin-top:var(--space-3);">
+        <div class="ds-type-label">--font-display（ロゴ・見出し）</div>
+        <div style="font-size:13px;color:var(--primary);font-family:monospace;">'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', var(--font-base)</div>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">Font Size</div>
+    <div class="ds-showcase ds-showcase-col" style="padding:0;overflow:hidden;margin-bottom:var(--space-5);">
+      <table class="ds-token-table">
+        <thead><tr><th>サイズ</th><th>用途</th><th>プレビュー</th></tr></thead>
+        <tbody>
+          <tr><td><code>11px</code></td><td class="text-muted">タイムスタンプ / 補足 / バッジ文字</td><td style="font-size:11px;color:var(--text-muted);">2024年5月 渋谷駅周辺</td></tr>
+          <tr><td><code>13px</code></td><td class="text-muted">キャプション / メニュー名 / カード補足</td><td style="font-size:13px;">特製醤油ラーメン（大盛り）</td></tr>
+          <tr><td><code>15px</code></td><td class="text-muted">本文基準 — ベースサイズ</td><td style="font-size:15px;">今日のランチに行ってみよう</td></tr>
+          <tr><td><code>16px</code></td><td class="text-muted">フォーム入力 / 強調本文 / 店名</td><td style="font-size:16px;font-weight:700;">麺処 さくら亭</td></tr>
+          <tr><td><code>18px</code></td><td class="text-muted">価格 / セクション見出し小</td><td style="font-size:18px;font-weight:700;color:var(--price-tag);">¥980</td></tr>
+          <tr><td><code>20px</code></td><td class="text-muted">ページ見出し / ランチマップタイトル</td><td style="font-size:20px;font-weight:700;">渋谷駅 周辺のランチ</td></tr>
+          <tr><td><code>28px</code></td><td class="text-muted">ヒーロー主見出し（スマホ）</td><td style="font-size:28px;font-weight:900;font-family:var(--font-display);color:var(--primary);">今日何食べた？</td></tr>
+          <tr><td><code>36px</code></td><td class="text-muted">ヒーロー主見出し（タブレット以上）</td><td style="font-size:28px;font-weight:900;font-family:var(--font-display);">ランチマップ</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ds-sub-title">Font Weight</div>
+    <div class="ds-showcase ds-showcase-col" style="padding:0;overflow:hidden;">
+      <table class="ds-token-table">
+        <thead><tr><th>ウェイト</th><th>用途</th><th>プレビュー</th></tr></thead>
+        <tbody>
+          <tr><td><code>400</code> Regular</td><td class="text-muted">本文 / コメント</td><td style="font-weight:400;">今日のランチは美味しかった</td></tr>
+          <tr><td><code>500</code> Medium</td><td class="text-muted">ラベル / ナビ</td><td style="font-weight:500;">渋谷駅 周辺を探す</td></tr>
+          <tr><td><code>600</code> Semibold</td><td class="text-muted">ボタン / フォームラベル</td><td style="font-weight:600;">投稿する</td></tr>
+          <tr><td><code>700</code> Bold</td><td class="text-muted">カード店名 / 価格 / 見出し</td><td style="font-weight:700;">¥1,200</td></tr>
+          <tr><td><code>900</code> Black</td><td class="text-muted">ロゴ / ヒーローキャッチ</td><td style="font-weight:900;font-family:var(--font-display);color:var(--primary);font-size:20px;">ランチマップ</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== 3. ボタン ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">3</span> ボタン</h2>
+    <div class="ds-showcase" style="margin-bottom:var(--space-4);">
+      <button class="btn btn-primary">投稿する</button>
+      <button class="btn btn-secondary">キャンセル</button>
+      <button class="btn btn-outline">エリアを変える</button>
+      <button class="btn btn-danger">削除する</button>
+      <button class="btn btn-ghost">スキップ</button>
+    </div>
+    <div class="ds-showcase">
+      <button class="btn btn-primary btn-sm">小ボタン</button>
+      <button class="btn btn-secondary btn-sm">編集</button>
+      <button class="btn btn-primary btn-lg">大きなCTA</button>
+      <button class="btn btn-primary btn-full" style="max-width:240px;">全幅ボタン</button>
+    </div>
+  </section>
+
+  <!-- ===== 4. FAB ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">4</span> FAB（フローティング投稿ボタン）</h2>
+    <div class="ds-showcase ds-showcase-bg" style="min-height:160px;position:relative;">
+      <div style="font-size:13px;color:var(--text-muted);">ランチマップページの右下に固定表示されるCTAボタン</div>
+      <!-- Inline demo (not fixed) -->
+      <div style="position:absolute;bottom:var(--space-4);right:var(--space-4);">
+        <button style="
+          width:60px;height:60px;border-radius:9999px;
+          background:var(--primary);color:#fff;border:none;cursor:pointer;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:var(--shadow-fab);font-size:28px;
+        ">＋</button>
+      </div>
+      <div style="position:absolute;bottom:var(--space-4);right:calc(var(--space-4) + 72px);">
+        <button style="
+          height:60px;border-radius:9999px;padding:0 var(--space-6);
+          background:var(--primary);color:#fff;border:none;cursor:pointer;
+          display:flex;align-items:center;gap:var(--space-2);
+          box-shadow:var(--shadow-fab);font-size:15px;font-weight:700;
+          font-family:inherit;white-space:nowrap;
+        ">＋ ランチを投稿</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 5. いいね（ハート）ボタン ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">5</span> いいね（ハート）ボタン</h2>
+    <div class="ds-showcase" style="gap:var(--space-4);">
+      <button class="btn-heart" id="heart-demo-1">
+        <span class="btn-heart-icon">🤍</span>
+        <span class="btn-heart-count">42</span>
+      </button>
+      <button class="btn-heart liked" id="heart-demo-2">
+        <span class="btn-heart-icon">❤️</span>
+        <span class="btn-heart-count">86</span>
+      </button>
+      <div style="font-size:13px;color:var(--text-muted);">クリックしてトグル</div>
+    </div>
+    <!-- Inline card like demo -->
+    <div class="ds-sub-title">カード内ミニ版</div>
+    <div class="ds-showcase">
+      <button class="lunch-card-like" id="card-like-demo">
+        🤍 12
+      </button>
+      <button class="lunch-card-like liked" id="card-like-demo-2">
+        ❤️ 38
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== 6. バッジ ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">6</span> バッジ</h2>
+    <div class="ds-showcase" style="flex-wrap:wrap;">
+      <span class="badge badge-new">NEW</span>
+      <span class="badge badge-popular">🔥 人気</span>
+      <span class="badge badge-price">〜¥1,000</span>
+      <span class="badge badge-category">ラーメン</span>
+      <span class="badge badge-category">定食</span>
+      <span class="badge badge-anon">匿名投稿</span>
+      <span class="badge badge-success">いいね済み</span>
+      <span class="badge badge-warning">混雑注意</span>
+      <span class="badge badge-danger">売切れ</span>
+      <span class="badge badge-info">新店舗</span>
+    </div>
+  </section>
+
+  <!-- ===== 7. ランチカード ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">7</span> ランチカード</h2>
+
+    <div class="ds-sub-title">カードグリッド（2列プレビュー）</div>
+    <div class="lunch-card-grid" style="grid-template-columns:repeat(2,1fr);max-width:600px;">
+
+      <!-- Card 1: with NEW badge -->
+      <div class="lunch-card">
+        <div class="lunch-card-img-wrap">
+          <div class="lunch-card-img" style="background:linear-gradient(135deg,#FFE4CC,#FFDAB9);display:flex;align-items:center;justify-content:center;font-size:64px;">🍜</div>
+          <div class="lunch-card-badge-wrap">
+            <span class="badge badge-new">NEW</span>
+          </div>
+        </div>
+        <div class="lunch-card-body">
+          <p class="lunch-card-shop">麺処 さくら亭</p>
+          <p class="lunch-card-menu">特製醤油ラーメン（大盛り）</p>
+          <div class="lunch-card-footer">
+            <span class="lunch-card-price">850</span>
+            <button class="lunch-card-like">🤍 12</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Popular + liked -->
+      <div class="lunch-card">
+        <div class="lunch-card-img-wrap">
+          <div class="lunch-card-img" style="background:linear-gradient(135deg,#FFF0D4,#FFE4A0);display:flex;align-items:center;justify-content:center;font-size:64px;">🍱</div>
+          <div class="lunch-card-badge-wrap">
+            <span class="badge badge-popular">🔥 人気</span>
+          </div>
+        </div>
+        <div class="lunch-card-body">
+          <p class="lunch-card-shop">定食屋 鈴木食堂</p>
+          <p class="lunch-card-menu">日替わり定食 Bセット</p>
+          <div class="lunch-card-footer">
+            <span class="lunch-card-price">680</span>
+            <button class="lunch-card-like liked">❤️ 97</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="lunch-card">
+        <div class="lunch-card-img-wrap">
+          <div class="lunch-card-img" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9);display:flex;align-items:center;justify-content:center;font-size:64px;">🥗</div>
+        </div>
+        <div class="lunch-card-body">
+          <p class="lunch-card-shop">Café de Soleil</p>
+          <p class="lunch-card-menu">季節野菜のグリルプレート</p>
+          <div class="lunch-card-footer">
+            <span class="lunch-card-price">1,200</span>
+            <button class="lunch-card-like">🤍 8</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: NEW + Popular -->
+      <div class="lunch-card">
+        <div class="lunch-card-img-wrap">
+          <div class="lunch-card-img" style="background:linear-gradient(135deg,#FFE0E0,#FFCDD2);display:flex;align-items:center;justify-content:center;font-size:64px;">🍛</div>
+          <div class="lunch-card-badge-wrap">
+            <span class="badge badge-new">NEW</span>
+            <span class="badge badge-popular">🔥</span>
+          </div>
+        </div>
+        <div class="lunch-card-body">
+          <p class="lunch-card-shop">スパイスカレー Bombay</p>
+          <p class="lunch-card-menu">チキンバターカレー</p>
+          <div class="lunch-card-footer">
+            <span class="lunch-card-price">980</span>
+            <button class="lunch-card-like">🤍 5</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Skeleton State -->
+    <div class="ds-sub-title">スケルトン（ローディング状態）</div>
+    <div class="lunch-card-grid" style="grid-template-columns:repeat(2,1fr);max-width:600px;">
+      <div class="skeleton-card">
+        <div class="ds-swatch skeleton skeleton-img" style="aspect-ratio:4/3;"></div>
+        <div class="skeleton-body">
+          <div class="skeleton skeleton-line"></div>
+          <div class="skeleton skeleton-line-short"></div>
+          <div class="skeleton skeleton-line-price"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="ds-swatch skeleton skeleton-img" style="aspect-ratio:4/3;"></div>
+        <div class="skeleton-body">
+          <div class="skeleton skeleton-line"></div>
+          <div class="skeleton skeleton-line-short"></div>
+          <div class="skeleton skeleton-line-price"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 8. ソートタブ / エリアバー ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">8</span> ソートタブ / エリア情報バー</h2>
+
+    <div class="ds-sub-title">エリア情報バー</div>
+    <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:var(--space-5);">
+      <div class="area-info-bar">
+        <span class="area-info-label">📍 現在のエリア</span>
+        <span class="area-info-name">渋谷駅 周辺</span>
+        <span class="area-info-count">42件</span>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">ソートタブ</div>
+    <div class="ds-showcase ds-showcase-col">
+      <div class="sort-tabs">
+        <button class="sort-tab active">新着順</button>
+        <button class="sort-tab">人気順</button>
+        <button class="sort-tab">価格：安い順</button>
+        <button class="sort-tab">価格：高い順</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 9. エリア検索ドリルダウン ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">9</span> エリア検索（ドリルダウン）</h2>
+
+    <!-- Step Indicator -->
+    <div class="area-steps" style="max-width:400px;margin-bottom:var(--space-5);">
+      <div class="area-step done">
+        <div class="area-step-num">✓</div>
+        <span>都道府県</span>
+      </div>
+      <div class="area-step-connector"></div>
+      <div class="area-step active">
+        <div class="area-step-num">2</div>
+        <span>路線</span>
+      </div>
+      <div class="area-step-connector"></div>
+      <div class="area-step">
+        <div class="area-step-num">3</div>
+        <span>駅</span>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">都道府県グリッド（Step 1）</div>
+    <div class="area-panel" style="max-width:500px;margin-bottom:var(--space-5);">
+      <div class="area-panel-header">都道府県を選んでください</div>
+      <div class="area-region-group">
+        <div class="area-region-title">関東</div>
+        <div class="area-grid">
+          <button class="area-item">東京都</button>
+          <button class="area-item active">神奈川県</button>
+          <button class="area-item">千葉県</button>
+          <button class="area-item">埼玉県</button>
+          <button class="area-item">茨城県</button>
+          <button class="area-item">栃木県</button>
+          <button class="area-item">群馬県</button>
+          <button class="area-item">山梨県</button>
+        </div>
+      </div>
+      <div class="area-region-group">
+        <div class="area-region-title">近畿</div>
+        <div class="area-grid">
+          <button class="area-item">大阪府</button>
+          <button class="area-item">京都府</button>
+          <button class="area-item">兵庫県</button>
+          <button class="area-item">奈良県</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">路線リスト（Step 2）</div>
+    <div class="area-panel" style="max-width:400px;">
+      <div class="area-panel-header">路線を選んでください — 東京都</div>
+      <div class="area-list">
+        <button class="area-list-item">
+          <span>JR山手線</span>
+          <span class="area-list-item-arrow">›</span>
+        </button>
+        <button class="area-list-item">
+          <span>JR中央線</span>
+          <span class="area-list-item-arrow">›</span>
+        </button>
+        <button class="area-list-item">
+          <span>東京メトロ銀座線</span>
+          <span class="area-list-item-arrow">›</span>
+        </button>
+        <button class="area-list-item">
+          <span>東急東横線</span>
+          <span class="area-list-item-arrow">›</span>
+        </button>
+        <button class="area-list-item">
+          <span>京王線</span>
+          <span class="area-list-item-arrow">›</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 10. フォーム要素 ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">10</span> フォーム要素（投稿ページ）</h2>
+    <div class="ds-showcase ds-showcase-col" style="max-width:480px;">
+
+      <!-- 写真アップロード -->
+      <div class="form-group" style="width:100%;">
+        <label class="form-label">写真 <span class="required">*</span></label>
+        <div class="form-upload">
+          <div class="form-upload-icon">📷</div>
+          <div class="form-upload-text">
+            <strong>タップして写真を選択</strong><br>
+            またはドラッグ＆ドロップ
+          </div>
+        </div>
+      </div>
+
+      <!-- 店名 -->
+      <div class="form-group" style="width:100%;">
+        <label class="form-label">店名 <span class="required">*</span></label>
+        <input type="text" class="form-input" placeholder="例：麺処 さくら亭">
+      </div>
+
+      <!-- メニュー名 -->
+      <div class="form-group" style="width:100%;">
+        <label class="form-label">メニュー名 <span class="required">*</span></label>
+        <input type="text" class="form-input" placeholder="例：特製醤油ラーメン">
+      </div>
+
+      <!-- 価格 -->
+      <div class="form-group" style="width:100%;">
+        <label class="form-label">値段 <span class="required">*</span></label>
+        <div class="form-price-wrap">
+          <span class="form-price-symbol">¥</span>
+          <input type="number" class="form-input" placeholder="980" min="0">
+        </div>
+      </div>
+
+      <!-- カテゴリ -->
+      <div class="form-group" style="width:100%;">
+        <label class="form-label">カテゴリ <span class="optional">任意</span></label>
+        <select class="form-input form-select">
+          <option value="">選択してください</option>
+          <option>ラーメン・つけ麺</option>
+          <option>定食・和食</option>
+          <option>カレー</option>
+          <option>中華</option>
+          <option>洋食・カフェ</option>
+          <option>寿司・海鮮</option>
+          <option>その他</option>
+        </select>
+      </div>
+
+      <!-- コメント -->
+      <div class="form-group" style="width:100%;">
+        <label class="form-label">コメント <span class="optional">任意</span></label>
+        <textarea class="form-input form-textarea" rows="3" placeholder="味の感想、混雑状況など気軽に..."></textarea>
+        <span class="form-hint">匿名投稿の場合もコメントは公開されます</span>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider" style="width:100%;">投稿者設定</div>
+
+      <!-- 匿名 / ログイン選択 -->
+      <div class="ds-showcase" style="width:100%;gap:var(--space-3);padding:var(--space-4);">
+        <button class="btn btn-primary btn-full">匿名で投稿する</button>
+        <button class="btn btn-secondary btn-full">ログインして投稿</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== 11. ヘッダー / ボトムナビ ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">11</span> ヘッダー / ナビゲーション</h2>
+
+    <div class="ds-sub-title">ヘッダー（モバイル）</div>
+    <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:var(--space-5);">
+      <div class="header" style="position:relative;">
+        <div class="header-inner">
+          <a class="logo" href="#">
+            <div class="logo-icon">🍴</div>
+            <span class="logo-text">ランチマップ</span>
+          </a>
+          <div class="header-actions">
+            <button class="btn btn-secondary btn-sm">ログイン</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">ボトムナビゲーション（モバイル）</div>
+    <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+      <div style="display:flex;height:60px;background:var(--surface);border-top:1px solid var(--border);">
+        <div class="bottom-nav-item active" style="position:relative;">
+          <div class="bottom-nav-icon">🗺️</div>
+          <div>マップ</div>
+        </div>
+        <div class="bottom-nav-item" style="position:relative;">
+          <div class="bottom-nav-icon">🔍</div>
+          <div>エリア</div>
+        </div>
+        <div class="bottom-nav-item" style="position:relative;">
+          <div class="bottom-nav-icon">📋</div>
+          <div>マイログ</div>
+        </div>
+        <div class="bottom-nav-item" style="position:relative;">
+          <div class="bottom-nav-icon">👤</div>
+          <div>マイページ</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 12. モーダル ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">12</span> モーダル / ボトムシート</h2>
+
+    <div class="ds-showcase ds-showcase-col">
+      <button class="btn btn-primary" id="open-modal-btn">モーダルを開く</button>
+      <p class="text-muted" style="font-size:13px;">スマホではボトムシート型で表示されます</p>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="demo-modal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <span class="modal-title">ログインしてランチログを保存</span>
+          <button class="modal-close" id="close-modal-btn">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-info">
+            <span class="alert-icon">ℹ️</span>
+            <div>ログインすると投稿履歴を「マイランチログ」として保存できます。</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">メールアドレス</label>
+            <input type="email" class="form-input" placeholder="example@mail.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">パスワード</label>
+            <input type="password" class="form-input" placeholder="パスワード">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="close-modal-btn2">キャンセル</button>
+          <button class="btn btn-primary">ログイン</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 13. アラート / トースト ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">13</span> アラート / トースト</h2>
+
+    <div class="ds-sub-title">アラート</div>
+    <div class="ds-showcase ds-showcase-col">
+      <div class="alert alert-success" style="width:100%;">
+        <span class="alert-icon">✅</span>
+        <div><strong>投稿が完了しました！</strong> ランチ情報をシェアありがとうございます。</div>
+      </div>
+      <div class="alert alert-warning" style="width:100%;">
+        <span class="alert-icon">⚠️</span>
+        <div><strong>注意：</strong> 写真のサイズが大きいため、圧縮してアップロードします。</div>
+      </div>
+      <div class="alert alert-danger" style="width:100%;">
+        <span class="alert-icon">❌</span>
+        <div><strong>エラー：</strong> 投稿に失敗しました。もう一度お試しください。</div>
+      </div>
+      <div class="alert alert-info" style="width:100%;">
+        <span class="alert-icon">ℹ️</span>
+        <div>ログインするとランチログとして記録が残ります。</div>
+      </div>
+    </div>
+
+    <div class="ds-sub-title">トースト</div>
+    <div class="ds-showcase">
+      <button class="btn btn-secondary" id="show-toast-btn">トーストを表示</button>
+      <div style="font-size:13px;color:var(--text-muted);">画面上部に一時的に表示される通知</div>
+    </div>
+  </section>
+
+  <!-- ===== 14. マイページ ログアイテム ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">14</span> マイページ — ランチログ</h2>
+    <div class="log-list" style="max-width:480px;">
+      <a class="log-item" href="#">
+        <div class="log-thumbnail" style="background:linear-gradient(135deg,#FFE4CC,#FFDAB9);display:flex;align-items:center;justify-content:center;font-size:32px;">🍜</div>
+        <div class="log-body">
+          <div class="log-date">2025年5月1日（木）</div>
+          <div class="log-shop">麺処 さくら亭</div>
+          <div class="log-menu">特製醤油ラーメン（大盛り）</div>
+          <div class="log-footer">
+            <span class="log-price">850</span>
+            <span class="log-likes">❤️ 12</span>
+            <span class="badge badge-category">ラーメン</span>
+          </div>
+        </div>
+      </a>
+      <a class="log-item" href="#">
+        <div class="log-thumbnail" style="background:linear-gradient(135deg,#FFF0D4,#FFE4A0);display:flex;align-items:center;justify-content:center;font-size:32px;">🍱</div>
+        <div class="log-body">
+          <div class="log-date">2025年4月28日（月）</div>
+          <div class="log-shop">定食屋 鈴木食堂</div>
+          <div class="log-menu">日替わり定食 Bセット</div>
+          <div class="log-footer">
+            <span class="log-price">680</span>
+            <span class="log-likes">❤️ 97</span>
+            <span class="badge badge-category">定食</span>
+          </div>
+        </div>
+      </a>
+      <a class="log-item" href="#">
+        <div class="log-thumbnail" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9);display:flex;align-items:center;justify-content:center;font-size:32px;">🥗</div>
+        <div class="log-body">
+          <div class="log-date">2025年4月25日（金）</div>
+          <div class="log-shop">Café de Soleil</div>
+          <div class="log-menu">季節野菜のグリルプレート</div>
+          <div class="log-footer">
+            <span class="log-price">1,200</span>
+            <span class="log-likes">❤️ 8</span>
+            <span class="badge badge-category">洋食</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== 15. エンプティステート ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">15</span> エンプティステート</h2>
+    <div class="ds-showcase" style="justify-content:center;">
+      <div class="empty-state" style="padding:var(--space-10);">
+        <div class="empty-icon">🍽️</div>
+        <div class="empty-title">まだ投稿がありません</div>
+        <div class="empty-sub">この駅周辺のランチ情報を最初に投稿してみましょう！</div>
+        <button class="btn btn-primary">ランチを投稿する</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 16. スペーシング ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">16</span> スペーシング</h2>
+    <div class="ds-showcase">
+      <div class="ds-spacing-demo">
+        <div class="ds-space-block">
+          <div class="ds-space-bar" style="width:var(--space-1)"></div>
+          <div class="ds-space-label">--space-1<br>4px</div>
+        </div>
+        <div class="ds-space-block">
+          <div class="ds-space-bar" style="width:var(--space-2)"></div>
+          <div class="ds-space-label">--space-2<br>8px</div>
+        </div>
+        <div class="ds-space-block">
+          <div class="ds-space-bar" style="width:var(--space-3)"></div>
+          <div class="ds-space-label">--space-3<br>12px</div>
+        </div>
+        <div class="ds-space-block">
+          <div class="ds-space-bar" style="width:var(--space-4)"></div>
+          <div class="ds-space-label">--space-4<br>16px</div>
+        </div>
+        <div class="ds-space-block">
+          <div class="ds-space-bar" style="width:var(--space-6)"></div>
+          <div class="ds-space-label">--space-6<br>24px</div>
+        </div>
+        <div class="ds-space-block">
+          <div class="ds-space-bar" style="width:var(--space-8)"></div>
+          <div class="ds-space-label">--space-8<br>32px</div>
+        </div>
+        <div class="ds-space-block">
+          <div class="ds-space-bar" style="width:var(--space-10)"></div>
+          <div class="ds-space-label">--space-10<br>40px</div>
+        </div>
+        <div class="ds-space-block">
+          <div class="ds-space-bar" style="width:var(--space-12)"></div>
+          <div class="ds-space-label">--space-12<br>48px</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 17. 角丸 ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">17</span> 角丸（Border Radius）</h2>
+    <div class="ds-showcase">
+      <div class="ds-radius-demo">
+        <div class="ds-radius-box" style="border-radius:var(--radius-xs);">
+          <span>xs</span><span>4px</span>
+        </div>
+        <div class="ds-radius-box" style="border-radius:var(--radius-sm);">
+          <span>sm</span><span>8px</span>
+        </div>
+        <div class="ds-radius-box" style="border-radius:var(--radius);">
+          <span>base</span><span>12px</span>
+        </div>
+        <div class="ds-radius-box" style="border-radius:var(--radius-lg);">
+          <span>lg</span><span>16px</span>
+        </div>
+        <div class="ds-radius-box" style="border-radius:var(--radius-xl);">
+          <span>xl</span><span>24px</span>
+        </div>
+        <div class="ds-radius-box" style="border-radius:var(--radius-full);width:60px;height:60px;">
+          <span>full</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 18. シャドウ ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">18</span> シャドウ</h2>
+    <div class="ds-showcase ds-showcase-bg">
+      <div class="ds-shadow-demo">
+        <div class="ds-shadow-box" style="box-shadow:var(--shadow-xs);">
+          <span class="ds-shadow-name">--shadow-xs</span>
+        </div>
+        <div class="ds-shadow-box" style="box-shadow:var(--shadow-sm);">
+          <span class="ds-shadow-name">--shadow-sm</span>
+        </div>
+        <div class="ds-shadow-box" style="box-shadow:var(--shadow);">
+          <span class="ds-shadow-name">--shadow</span>
+        </div>
+        <div class="ds-shadow-box" style="box-shadow:var(--shadow-md);">
+          <span class="ds-shadow-name">--shadow-md</span>
+        </div>
+        <div class="ds-shadow-box" style="box-shadow:var(--shadow-lg);">
+          <span class="ds-shadow-name">--shadow-lg</span>
+        </div>
+        <div class="ds-shadow-box" style="box-shadow:var(--shadow-xl);">
+          <span class="ds-shadow-name">--shadow-xl</span>
+        </div>
+        <div class="ds-shadow-box" style="box-shadow:var(--shadow-fab);background:var(--primary);color:#fff;">
+          <span class="ds-shadow-name" style="color:#fff;">--shadow-fab</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 19. ヒーローセクション（プレビュー） ===== -->
+  <section class="ds-section">
+    <h2 class="ds-section-title"><span class="num">19</span> ヒーローセクション</h2>
+    <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+      <div class="hero">
+        <div class="hero-eyebrow">🍴 Lunch Map</div>
+        <h1 class="hero-title">
+          今日の<span class="highlight">お昼</span>、<br>
+          どこにする？
+        </h1>
+        <p class="hero-sub">駅名から探して、お気に入りのランチをシェアしよう。匿名でもOK、登録不要ですぐ使える。</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg">エリアから探す</button>
+          <button class="btn btn-secondary btn-lg">投稿する</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Toast Container -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+$(function() {
+
+  // Heart button toggle
+  $('.btn-heart').on('click', function() {
+    const $btn = $(this);
+    const $icon = $btn.find('.btn-heart-icon');
+    const $count = $btn.find('.btn-heart-count');
+    const isLiked = $btn.hasClass('liked');
+    const n = parseInt($count.text());
+
+    $btn.toggleClass('liked').addClass('pop');
+    $icon.text(isLiked ? '🤍' : '❤️');
+    $count.text(isLiked ? n - 1 : n + 1);
+
+    setTimeout(function() { $btn.removeClass('pop'); }, 400);
+  });
+
+  // Card like toggle
+  $('.lunch-card-like').on('click', function(e) {
+    e.stopPropagation();
+    const $btn = $(this);
+    const isLiked = $btn.hasClass('liked');
+    const parts = $btn.text().trim().split(' ');
+    const n = parseInt(parts[1]);
+    $btn.toggleClass('liked');
+    $btn.text((isLiked ? '🤍' : '❤️') + ' ' + (isLiked ? n - 1 : n + 1));
+  });
+
+  // Sort tab toggle
+  $('.sort-tab').on('click', function() {
+    $('.sort-tab').removeClass('active');
+    $(this).addClass('active');
+  });
+
+  // Area item toggle
+  $('.area-item').on('click', function() {
+    $(this).closest('.area-grid').find('.area-item').removeClass('active');
+    $(this).addClass('active');
+  });
+
+  // Modal open/close
+  $('#open-modal-btn').on('click', function() {
+    $('#demo-modal').addClass('active');
+    $('body').addClass('modal-open');
+  });
+
+  $('#close-modal-btn, #close-modal-btn2').on('click', function() {
+    $('#demo-modal').removeClass('active');
+    $('body').removeClass('modal-open');
+  });
+
+  $('#demo-modal').on('click', function(e) {
+    if ($(e.target).is('#demo-modal')) {
+      $(this).removeClass('active');
+      $('body').removeClass('modal-open');
+    }
+  });
+
+  // Toast demo
+  var toastTimer;
+  $('#show-toast-btn').on('click', function() {
+    var $wrap = $('#toast-wrap');
+    var $toast = $('<div class="toast toast-success">✅ ランチ情報を投稿しました！</div>');
+    $wrap.append($toast);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() {
+      $toast.fadeOut(300, function() { $(this).remove(); });
+    }, 2800);
+  });
+
+});
+</script>
+</body>
+</html>
