@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ランチマップ — 駅周辺のランチを探す">
+  <title>ランチマップ — 駅周辺を探す</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design-system/style.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a class="btn btn-ghost btn-sm" href="../area/index.html">← 戻る</a>
+      <span class="header-title" id="station-header-title">○○駅 周辺</span>
+      <div class="header-spacer"></div>
+    </div>
+  </header>
+
+  <!-- Area Info Bar -->
+  <div class="area-info-bar">
+    <span class="area-info-label">📍</span>
+    <span class="area-info-name" id="area-info-name">渋谷駅</span>
+    <span class="area-info-count" id="area-info-count">8件のランチ</span>
+  </div>
+
+  <div class="page-content">
+    <div class="main">
+
+      <!-- Sort Tabs -->
+      <div class="sort-tabs" id="sort-tabs">
+        <button class="sort-tab active" data-sort="new">🆕 新着順</button>
+        <button class="sort-tab" data-sort="popular">🔥 人気順</button>
+        <button class="sort-tab" data-sort="cheap">💰 価格：安い順</button>
+      </div>
+
+      <!-- Card Grid -->
+      <div class="lunch-card-grid" id="card-grid">
+
+        <div class="lunch-card" data-id="1" data-likes="12" data-price="850" data-date="20260501">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🍜</div>
+            <div class="lunch-card-badge-wrap">
+              <span class="badge badge-new">NEW</span>
+              <span class="badge badge-category">ラーメン</span>
+            </div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">麺処 さくら亭</p>
+            <p class="lunch-card-menu">特製醤油ラーメン（大盛り）</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">850</span>
+              <button class="lunch-card-like" data-count="12">🤍 12</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lunch-card" data-id="2" data-likes="97" data-price="680" data-date="20260429">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🍱</div>
+            <div class="lunch-card-badge-wrap">
+              <span class="badge badge-popular">🔥 人気</span>
+              <span class="badge badge-category">定食</span>
+            </div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">定食屋 鈴木食堂</p>
+            <p class="lunch-card-menu">日替わり定食 Bセット</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">680</span>
+              <button class="lunch-card-like liked" data-count="97">❤️ 97</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lunch-card" data-id="3" data-likes="8" data-price="1200" data-date="20260428">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🥗</div>
+            <div class="lunch-card-badge-wrap">
+              <span class="badge badge-category">洋食</span>
+            </div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">Café de Soleil</p>
+            <p class="lunch-card-menu">季節野菜のグリルプレート</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">1,200</span>
+              <button class="lunch-card-like" data-count="8">🤍 8</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lunch-card" data-id="4" data-likes="5" data-price="980" data-date="20260502">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🍛</div>
+            <div class="lunch-card-badge-wrap">
+              <span class="badge badge-new">NEW</span>
+              <span class="badge badge-category">カレー</span>
+            </div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">スパイスカレー Bombay</p>
+            <p class="lunch-card-menu">チキンバターカレー</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">980</span>
+              <button class="lunch-card-like" data-count="5">🤍 5</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lunch-card" data-id="5" data-likes="34" data-price="1500" data-date="20260425">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🍣</div>
+            <div class="lunch-card-badge-wrap">
+              <span class="badge badge-category">寿司</span>
+            </div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">鮨 はな田</p>
+            <p class="lunch-card-menu">上にぎりセット</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">1,500</span>
+              <button class="lunch-card-like" data-count="34">🤍 34</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lunch-card" data-id="6" data-likes="21" data-price="1080" data-date="20260427">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🍝</div>
+            <div class="lunch-card-badge-wrap">
+              <span class="badge badge-category">イタリアン</span>
+            </div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">トラットリア 陽</p>
+            <p class="lunch-card-menu">ランチパスタ（本日の魚介）</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">1,080</span>
+              <button class="lunch-card-like" data-count="21">🤍 21</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lunch-card" data-id="7" data-likes="43" data-price="1100" data-date="20260424">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🥩</div>
+            <div class="lunch-card-badge-wrap">
+              <span class="badge badge-popular">🔥 人気</span>
+              <span class="badge badge-category">焼肉</span>
+            </div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">焼肉ランチ 牛蔵</p>
+            <p class="lunch-card-menu">カルビランチ（ライス大盛り無料）</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">1,100</span>
+              <button class="lunch-card-like" data-count="43">🤍 43</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lunch-card" data-id="8" data-likes="17" data-price="1380" data-date="20260423">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🍔</div>
+            <div class="lunch-card-badge-wrap">
+              <span class="badge badge-category">バーガー</span>
+            </div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">Burger Lab SHIBUYA</p>
+            <p class="lunch-card-menu">アボカドチーズバーガーセット</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">1,380</span>
+              <button class="lunch-card-like" data-count="17">🤍 17</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination">
+        <button class="pagination-btn" id="prev-btn" disabled>← 前へ</button>
+        <span class="pagination-nums">1 / 1</span>
+        <button class="pagination-btn" id="next-btn" disabled>次へ →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FAB -->
+  <button class="fab fab-extended" id="fab-post">＋ ランチを投稿</button>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a class="bottom-nav-item active" href="../index.html">
+      <div class="bottom-nav-icon">🗺️</div>
+      <div>ホーム</div>
+    </a>
+    <a class="bottom-nav-item" href="../area/index.html">
+      <div class="bottom-nav-icon">🔍</div>
+      <div>エリア</div>
+    </a>
+    <a class="bottom-nav-item" href="../post/index.html">
+      <div class="bottom-nav-icon">＋</div>
+      <div>投稿</div>
+    </a>
+    <a class="bottom-nav-item" href="../mypage/index.html">
+      <div class="bottom-nav-icon">👤</div>
+      <div>マイページ</div>
+    </a>
+  </nav>
+
+  <script src="../jquery-4.0.0.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ランチマップ — ランチ詳細">
+  <title>ランチ詳細 — ランチマップ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design-system/style.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <button class="btn btn-ghost btn-sm" id="back-btn">← 戻る</button>
+      <span class="header-title">ランチ詳細</span>
+      <div class="header-spacer"></div>
+    </div>
+  </header>
+
+  <div class="page-content">
+
+    <!-- Hero Image (全幅) -->
+    <div class="detail-hero-img">
+      <div class="detail-hero-emoji" id="detail-emoji">🍜</div>
+      <div class="lunch-card-badge-wrap">
+        <span class="badge badge-new" id="detail-badge-new">NEW</span>
+        <span class="badge badge-category" id="detail-badge-category">ラーメン</span>
+      </div>
+    </div>
+
+    <div class="main">
+
+      <!-- 店名・メニュー・価格 -->
+      <div class="detail-info">
+        <h1 class="detail-shop-name" id="detail-shop">麺処 さくら亭</h1>
+        <p class="detail-menu-name" id="detail-menu">特製醤油ラーメン（大盛り）</p>
+        <div class="detail-price-row">
+          <span class="detail-price" id="detail-price">¥850</span>
+          <span class="badge badge-price" id="detail-price-badge">お手頃</span>
+        </div>
+      </div>
+
+      <!-- いいねボタン -->
+      <div class="detail-like-wrap">
+        <button class="btn-heart" id="detail-heart-btn">
+          <span class="btn-heart-icon">🤍</span>
+          <span class="btn-heart-count" id="detail-like-count">12</span>
+        </button>
+        <div class="detail-like-label">いいね！</div>
+      </div>
+
+      <div class="divider">投稿情報</div>
+
+      <!-- メタ情報 -->
+      <div class="detail-meta">
+        <div class="detail-meta-item">
+          <span class="detail-meta-label">📍 エリア</span>
+          <span class="detail-meta-value" id="detail-area">渋谷駅 周辺</span>
+        </div>
+        <div class="detail-meta-item">
+          <span class="detail-meta-label">📅 投稿日</span>
+          <span class="detail-meta-value" id="detail-date">2026年5月1日</span>
+        </div>
+        <div class="detail-meta-item">
+          <span class="detail-meta-label">👤 投稿者</span>
+          <span class="detail-meta-value">
+            <span class="badge badge-anon">匿名</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- コメント -->
+      <div class="detail-comment">
+        <div class="detail-comment-label">💬 コメント</div>
+        <p class="detail-comment-text" id="detail-comment">
+          スープが濃厚で麺とよく絡みます。大盛り無料なのがうれしい！昼時は並ぶことも多いので、12時前に行くのがおすすめです。
+        </p>
+      </div>
+
+      <div class="divider">地図</div>
+
+      <!-- Google Map -->
+      <section class="section">
+        <h2 class="section-title">🗺️ 場所</h2>
+        <div class="map-wrap map-wrap-tall">
+          <iframe
+            id="detail-map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.1050047437295!2d139.6917!3d35.6585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188b563b00109f%3A0x337328def1e2ab26!2z5riL6LC35Z-O!5e0!3m2!1sja!2sjp!4v1620000000000!5m2!1sja!2sjp"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+        <a class="btn btn-secondary btn-full detail-map-link" id="detail-map-link" href="#" target="_blank">
+          Google Maps で開く →
+        </a>
+      </section>
+
+      <div class="divider">シェア</div>
+
+      <!-- SNS Share -->
+      <div class="share-row">
+        <h2 class="section-title">📢 シェアする</h2>
+        <div class="share-btns">
+          <a class="btn btn-share-x" id="share-x" href="#" target="_blank" rel="noopener noreferrer">
+            𝕏 でシェア
+          </a>
+          <a class="btn btn-share-line" id="share-line" href="#" target="_blank" rel="noopener noreferrer">
+            LINE でシェア
+          </a>
+        </div>
+      </div>
+
+      <!-- CTA: この駅で投稿する -->
+      <div class="detail-post-cta">
+        <a class="btn btn-primary btn-full btn-lg" id="post-cta-btn" href="../post/index.html">
+          ＋ この駅でランチを投稿する
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a class="bottom-nav-item" href="../index.html">
+      <div class="bottom-nav-icon">🗺️</div>
+      <div>ホーム</div>
+    </a>
+    <a class="bottom-nav-item" href="../area/index.html">
+      <div class="bottom-nav-icon">🔍</div>
+      <div>エリア</div>
+    </a>
+    <a class="bottom-nav-item" href="../post/index.html">
+      <div class="bottom-nav-icon">＋</div>
+      <div>投稿</div>
+    </a>
+    <a class="bottom-nav-item" href="../mypage/index.html">
+      <div class="bottom-nav-icon">👤</div>
+      <div>マイページ</div>
+    </a>
+  </nav>
+
+  <script src="../jquery-4.0.0.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
