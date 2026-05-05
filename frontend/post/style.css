@@ -1,0 +1,87 @@
+/* ===== Post Page Styles ===== */
+
+.header-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  flex: 1;
+}
+
+.header-spacer { width: 80px; }
+
+/* 投稿ページはボトムナビなし → 余白調整 */
+.post-content {
+  padding-bottom: var(--space-16);
+}
+
+/* 駅バッジバー */
+.station-badge-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-warm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.station-badge-label {
+  color: var(--text-muted);
+  font-size: 13px;
+  flex: 1;
+}
+
+/* フォームグループ間スペース */
+.form-group {
+  margin-bottom: var(--space-5);
+}
+
+/* 投稿者切り替え */
+.poster-toggle {
+  background: var(--surface-warm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.poster-toggle-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.poster-toggle-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.poster-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.poster-btn.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}

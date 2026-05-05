@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ランチマップ — マイページ・ランチログ">
+  <title>マイページ — ランチマップ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design-system/style.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">
+        <div class="logo-icon">🍴</div>
+        <span class="logo-text">ランチマップ</span>
+      </a>
+      <div class="header-actions">
+        <a class="btn btn-outline btn-sm" href="../auth/index.html" id="header-login-btn">ログイン</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== ログイン済み View ===== -->
+  <div id="logged-in-view" style="display:none;">
+
+    <!-- プロフィール -->
+    <div class="mypage-profile">
+      <div class="mypage-avatar" id="mypage-avatar">🍜</div>
+      <div class="mypage-user-info">
+        <div class="mypage-username" id="mypage-username">ランチ太郎</div>
+        <div class="mypage-user-sub text-muted" id="mypage-handle">@lunchman</div>
+      </div>
+    </div>
+
+    <!-- 統計 -->
+    <div class="mypage-stats">
+      <div class="mypage-stat-item">
+        <div class="mypage-stat-num">5</div>
+        <div class="mypage-stat-label">投稿数</div>
+      </div>
+      <div class="mypage-stat-divider"></div>
+      <div class="mypage-stat-item">
+        <div class="mypage-stat-num">147</div>
+        <div class="mypage-stat-label">総いいね</div>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="main">
+
+        <h2 class="section-title">📋 ランチログ</h2>
+        <div class="log-list" id="log-list">
+
+          <a class="log-item" href="../detail/index.html?id=1&station=渋谷">
+            <div class="log-thumbnail log-thumbnail--emoji">🍜</div>
+            <div class="log-body">
+              <div class="log-date">2026年5月1日（木）</div>
+              <div class="log-shop">麺処 さくら亭</div>
+              <div class="log-menu">特製醤油ラーメン（大盛り）</div>
+              <div class="log-footer">
+                <span class="log-price">850</span>
+                <span class="log-likes">❤️ 12</span>
+                <span class="badge badge-category">ラーメン</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="log-item" href="../detail/index.html?id=2&station=渋谷">
+            <div class="log-thumbnail log-thumbnail--emoji">🍱</div>
+            <div class="log-body">
+              <div class="log-date">2026年4月29日（火）</div>
+              <div class="log-shop">定食屋 鈴木食堂</div>
+              <div class="log-menu">日替わり定食 Bセット</div>
+              <div class="log-footer">
+                <span class="log-price">680</span>
+                <span class="log-likes">❤️ 97</span>
+                <span class="badge badge-category">定食</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="log-item" href="../detail/index.html?id=4&station=新宿">
+            <div class="log-thumbnail log-thumbnail--emoji">🍛</div>
+            <div class="log-body">
+              <div class="log-date">2026年4月25日（金）</div>
+              <div class="log-shop">スパイスカレー Bombay</div>
+              <div class="log-menu">チキンバターカレー</div>
+              <div class="log-footer">
+                <span class="log-price">980</span>
+                <span class="log-likes">❤️ 5</span>
+                <span class="badge badge-category">カレー</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="log-item" href="../detail/index.html?id=7&station=池袋">
+            <div class="log-thumbnail log-thumbnail--emoji">🥩</div>
+            <div class="log-body">
+              <div class="log-date">2026年4月22日（火）</div>
+              <div class="log-shop">焼肉ランチ 牛蔵</div>
+              <div class="log-menu">カルビランチ（ライス大盛り無料）</div>
+              <div class="log-footer">
+                <span class="log-price">1,100</span>
+                <span class="log-likes">❤️ 43</span>
+                <span class="badge badge-category">焼肉</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="log-item" href="../detail/index.html?id=5&station=品川">
+            <div class="log-thumbnail log-thumbnail--emoji">🍣</div>
+            <div class="log-body">
+              <div class="log-date">2026年4月18日（金）</div>
+              <div class="log-shop">鮨 はな田</div>
+              <div class="log-menu">上にぎりセット</div>
+              <div class="log-footer">
+                <span class="log-price">1,500</span>
+                <span class="log-likes">❤️ 34</span>
+                <span class="badge badge-category">寿司</span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- ランチを投稿するCTA -->
+        <div class="mypage-post-cta">
+          <a class="btn btn-primary btn-full" href="../post/index.html">＋ 今日のランチを投稿する</a>
+        </div>
+
+        <!-- ログアウト -->
+        <div class="mypage-logout-wrap">
+          <button class="btn btn-ghost" id="logout-btn">ログアウト</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== 未ログイン View ===== -->
+  <div id="not-logged-in-view">
+    <div class="empty-state" style="padding-top: var(--space-16);">
+      <div class="empty-icon">👤</div>
+      <div class="empty-title">ログインしてランチログを記録</div>
+      <div class="empty-sub">投稿したランチが自分だけのログとして残ります。あの日何食べた？をいつでも振り返れます。</div>
+      <a class="btn btn-primary btn-lg" href="../auth/index.html">ログイン / 新規登録</a>
+    </div>
+
+    <div class="main">
+      <div class="divider">匿名でも使える機能</div>
+      <div class="anon-features">
+        <div class="anon-feature-item">
+          <span class="anon-feature-icon">👀</span>
+          <span>ランチ情報を閲覧する</span>
+        </div>
+        <div class="anon-feature-item">
+          <span class="anon-feature-icon">❤️</span>
+          <span>いいね（ハート）を押す</span>
+        </div>
+        <div class="anon-feature-item">
+          <span class="anon-feature-icon">📝</span>
+          <span>匿名でランチを投稿する</span>
+        </div>
+      </div>
+      <a class="btn btn-secondary btn-full" href="../post/index.html">
+        👤 匿名でランチを投稿する
+      </a>
+    </div>
+  </div>
+
+  <!-- ログアウト確認モーダル -->
+  <div class="modal-overlay" id="logout-modal">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <span class="modal-title">ログアウトしますか？</span>
+        <button class="modal-close" id="logout-cancel">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:14px; color:var(--text-muted); line-height:1.7;">ログアウトすると匿名状態になります。<br>投稿したランチログはアカウントに保存されています。</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="logout-cancel-2">キャンセル</button>
+        <button class="btn btn-danger" id="logout-confirm">ログアウト</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-wrap" id="toast-wrap"></div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a class="bottom-nav-item" href="../index.html">
+      <div class="bottom-nav-icon">🗺️</div>
+      <div>ホーム</div>
+    </a>
+    <a class="bottom-nav-item" href="../area/index.html">
+      <div class="bottom-nav-icon">🔍</div>
+      <div>エリア</div>
+    </a>
+    <a class="bottom-nav-item" href="../post/index.html">
+      <div class="bottom-nav-icon">＋</div>
+      <div>投稿</div>
+    </a>
+    <a class="bottom-nav-item active" href="../mypage/index.html">
+      <div class="bottom-nav-icon">👤</div>
+      <div>マイページ</div>
+    </a>
+  </nav>
+
+  <script src="../jquery-4.0.0.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

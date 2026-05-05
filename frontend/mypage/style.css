@@ -1,0 +1,118 @@
+/* ===== Mypage Styles ===== */
+
+/* プロフィールヘッダー */
+.mypage-profile {
+  background: linear-gradient(135deg, var(--primary-light), var(--surface-warm));
+  padding: var(--space-8) var(--space-5) var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.mypage-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+  box-shadow: var(--shadow);
+}
+
+.mypage-username {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.mypage-user-sub {
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+/* 統計サマリー */
+.mypage-stats {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-4) 0;
+}
+
+.mypage-stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.mypage-stat-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.mypage-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.mypage-stat-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--border);
+}
+
+/* ログ一覧 */
+.log-thumbnail--emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background: linear-gradient(135deg, var(--surface-warm), var(--primary-light));
+}
+
+/* ログポスト CTA */
+.mypage-post-cta {
+  padding: var(--space-6) 0 var(--space-4);
+}
+
+/* ログアウト */
+.mypage-logout-wrap {
+  padding: var(--space-2) 0 var(--space-8);
+  text-align: center;
+}
+
+/* 未ログイン: 匿名機能リスト */
+.anon-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-5) 0;
+}
+
+.anon-feature-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 15px;
+  color: var(--text-sub);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.anon-feature-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}

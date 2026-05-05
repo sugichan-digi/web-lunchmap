@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ランチマップ — ランチを投稿する">
+  <title>ランチを投稿 — ランチマップ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design-system/style.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <button class="btn btn-ghost btn-sm" id="close-btn">✕ 閉じる</button>
+      <span class="header-title">ランチを投稿</span>
+      <div class="header-spacer"></div>
+    </div>
+  </header>
+
+  <div class="post-content">
+    <div class="main">
+
+      <!-- 駅名バッジバー -->
+      <div class="station-badge-bar" id="station-badge-bar">
+        <span class="badge badge-category" id="station-badge">📍 エリア未設定</span>
+        <span class="station-badge-label">に投稿します</span>
+        <a class="btn btn-ghost btn-sm" href="../area/index.html">変更</a>
+      </div>
+
+      <!-- Post Form -->
+      <form id="post-form" novalidate>
+
+        <!-- 写真アップロード -->
+        <div class="form-group">
+          <label class="form-label">写真 <span class="required">*</span></label>
+          <div class="form-upload" id="upload-area">
+            <div class="form-upload-icon" id="upload-icon">📷</div>
+            <div class="form-upload-text" id="upload-text">
+              <strong>タップして写真を選ぶ</strong><br>
+              JPG / PNG / HEIC 対応
+            </div>
+            <input type="file" accept="image/*" id="photo-input" style="display:none">
+          </div>
+          <img class="form-upload-preview" id="photo-preview" style="display:none" alt="プレビュー">
+          <div class="form-error" id="photo-error" style="display:none">⚠ 写真を選んでください</div>
+        </div>
+
+        <!-- 店名 -->
+        <div class="form-group">
+          <label class="form-label" for="shop-name">店名 <span class="required">*</span></label>
+          <input class="form-input" type="text" id="shop-name" placeholder="例：麺処 さくら亭">
+          <div class="form-error" id="shop-error" style="display:none">⚠ 店名を入力してください</div>
+        </div>
+
+        <!-- メニュー名 -->
+        <div class="form-group">
+          <label class="form-label" for="menu-name">メニュー名 <span class="required">*</span></label>
+          <input class="form-input" type="text" id="menu-name" placeholder="例：特製醤油ラーメン">
+          <div class="form-error" id="menu-error" style="display:none">⚠ メニュー名を入力してください</div>
+        </div>
+
+        <!-- 値段 -->
+        <div class="form-group">
+          <label class="form-label" for="price">値段 <span class="required">*</span></label>
+          <div class="form-price-wrap">
+            <span class="form-price-symbol">¥</span>
+            <input class="form-input" type="number" id="price" placeholder="850" min="0" max="99999">
+          </div>
+          <div class="form-error" id="price-error" style="display:none">⚠ 値段を入力してください</div>
+        </div>
+
+        <!-- カテゴリ -->
+        <div class="form-group">
+          <label class="form-label" for="category">カテゴリ <span class="required">*</span></label>
+          <select class="form-input form-select" id="category">
+            <option value="">選んでください</option>
+            <option value="ramen">ラーメン・つけ麺</option>
+            <option value="teishoku">定食・和食</option>
+            <option value="curry">カレー</option>
+            <option value="sushi">寿司・海鮮</option>
+            <option value="yoshoku">洋食・カフェ</option>
+            <option value="italian">イタリアン</option>
+            <option value="chinese">中華</option>
+            <option value="yakiniku">焼肉・肉料理</option>
+            <option value="burger">バーガー</option>
+            <option value="other">その他</option>
+          </select>
+          <div class="form-error" id="category-error" style="display:none">⚠ カテゴリを選んでください</div>
+        </div>
+
+        <!-- Google Map リンク -->
+        <div class="form-group">
+          <label class="form-label" for="map-link">Google Map リンク <span class="optional">任意</span></label>
+          <input class="form-input" type="url" id="map-link" placeholder="https://maps.google.com/...">
+          <div class="form-hint">Google Maps で店を検索し、「共有」からリンクを貼り付けてください</div>
+        </div>
+
+        <!-- コメント -->
+        <div class="form-group">
+          <label class="form-label" for="comment">コメント <span class="optional">任意</span></label>
+          <textarea class="form-input form-textarea" id="comment" rows="3" placeholder="味の感想、混雑状況など気軽に…"></textarea>
+          <div class="form-hint">匿名投稿でもコメントは公開されます</div>
+        </div>
+
+        <!-- 投稿者切り替え -->
+        <div class="poster-toggle">
+          <div class="poster-toggle-title">投稿者設定</div>
+          <div class="poster-toggle-btns">
+            <button type="button" class="poster-btn active" data-type="anon">
+              <span>👤</span> 匿名で投稿
+            </button>
+            <button type="button" class="poster-btn" data-type="login">
+              <span>🔑</span> ログインして投稿
+            </button>
+          </div>
+          <div class="form-hint">ログインすると投稿がランチログとして記録されます</div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-primary btn-full btn-lg" id="submit-btn">
+          🍴 ランチを投稿する
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-wrap" id="toast-wrap"></div>
+
+  <!-- 投稿完了モーダル -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <span class="modal-title">投稿が完了しました！</span>
+        <button class="modal-close" id="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body" style="text-align:center;">
+        <div style="font-size:64px; margin-bottom:var(--space-3);">🎉</div>
+        <p style="font-size:15px; color:var(--text-muted);">ランチ情報を投稿しました。<br>みんなに届きますように！</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="modal-back-btn">一覧へ戻る</button>
+        <a class="btn btn-primary" id="modal-view-btn" href="../detail/index.html?id=new">投稿を見る</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="../jquery-4.0.0.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
