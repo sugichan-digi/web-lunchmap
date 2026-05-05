@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ランチマップ — ログイン / 新規登録">
+  <title>ログイン / 新規登録 — ランチマップ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design-system/style.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a class="btn btn-ghost btn-sm" href="../index.html">← ホーム</a>
+      <a class="logo" href="../index.html">
+        <div class="logo-icon">🍴</div>
+        <span class="logo-text">ランチマップ</span>
+      </a>
+      <div class="header-spacer"></div>
+    </div>
+  </header>
+
+  <div class="auth-content">
+    <div class="auth-container">
+
+      <!-- Auth visual -->
+      <div class="auth-visual">
+        <div class="auth-visual-emoji">🍴</div>
+        <h1 class="auth-visual-title">ランチマップに<br>ログインする</h1>
+        <p class="auth-visual-sub">投稿したランチが「マイランチログ」として残ります</p>
+      </div>
+
+      <!-- Tab Switch -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">ログイン</button>
+        <button class="auth-tab" data-tab="register">新規登録</button>
+      </div>
+
+      <!-- Login Form -->
+      <div class="auth-panel" id="panel-login">
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="login-email">メールアドレス <span class="required">*</span></label>
+            <input class="form-input" type="email" id="login-email" placeholder="lunch@example.com" autocomplete="email">
+            <div class="form-error" id="login-email-error" style="display:none">⚠ メールアドレスを入力してください</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-pw">パスワード <span class="required">*</span></label>
+            <input class="form-input" type="password" id="login-pw" placeholder="パスワード" autocomplete="current-password">
+            <div class="form-error" id="login-pw-error" style="display:none">⚠ パスワードを入力してください</div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full btn-lg">ログイン</button>
+        </form>
+      </div>
+
+      <!-- Register Form -->
+      <div class="auth-panel" id="panel-register" style="display:none">
+        <form id="register-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="reg-name">ニックネーム <span class="required">*</span></label>
+            <input class="form-input" type="text" id="reg-name" placeholder="例：ランチ太郎">
+            <div class="form-error" id="reg-name-error" style="display:none">⚠ ニックネームを入力してください</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-email">メールアドレス <span class="required">*</span></label>
+            <input class="form-input" type="email" id="reg-email" placeholder="lunch@example.com" autocomplete="email">
+            <div class="form-error" id="reg-email-error" style="display:none">⚠ メールアドレスを入力してください</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-pw">パスワード <span class="required">*</span></label>
+            <input class="form-input" type="password" id="reg-pw" placeholder="8文字以上" autocomplete="new-password">
+            <div class="form-error" id="reg-pw-error" style="display:none">⚠ 8文字以上で入力してください</div>
+            <div class="form-hint">英数字を含む8文字以上で設定してください</div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full btn-lg">アカウントを作成する</button>
+        </form>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider">または</div>
+
+      <!-- 匿名利用への誘導 -->
+      <div class="auth-anon-note">
+        <span class="badge badge-anon">匿名OK</span>
+        <p>ログインなしでも、ランチ情報の投稿・閲覧・いいねができます。</p>
+        <a class="btn btn-secondary btn-full" href="../post/index.html">
+          👤 匿名でランチを投稿する
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-wrap" id="toast-wrap"></div>
+
+  <!-- 成功モーダル -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-body" style="text-align:center; padding:var(--space-10) var(--space-6);">
+        <div style="font-size:56px; margin-bottom:var(--space-4);">🎉</div>
+        <div class="modal-title" id="success-msg" style="font-size:18px; margin-bottom:var(--space-2);">ログインしました！</div>
+        <p class="text-muted" style="font-size:14px;">マイページでランチログを確認できます。</p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-secondary" href="../index.html">ホームへ</a>
+        <a class="btn btn-primary" href="../mypage/index.html">マイページへ</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="../jquery-4.0.0.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
