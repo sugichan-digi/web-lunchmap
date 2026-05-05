@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ランチマップ — 今日何食べた？をサクッと記録、みんなの「美味しい」とつながる。">
+  <title>ランチマップ — 今日のランチを探す・投稿する</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./design-system/style.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a class="logo" href="./index.html">
+        <div class="logo-icon">🍴</div>
+        <span class="logo-text">ランチマップ</span>
+      </a>
+      <div class="header-actions">
+        <a class="btn btn-outline btn-sm" href="./auth/index.html">ログイン</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-content">
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-eyebrow">🍴 Lunch Map</div>
+      <h1 class="hero-title">
+        今日の<span class="highlight">お昼</span>、<br>
+        どこにする？
+      </h1>
+      <p class="hero-sub">駅名から探して、お気に入りのランチをシェアしよう。<br>匿名でもOK、登録不要ですぐ使える。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="./area/index.html">
+          🔍 エリアから探す
+        </a>
+        <a class="btn btn-secondary btn-lg" href="./post/index.html">
+          ＋ ランチを投稿
+        </a>
+      </div>
+    </section>
+
+    <!-- Quick Search -->
+    <section class="section">
+      <h2 class="section-title">🔍 エリアから探す</h2>
+      <div class="search-card-grid">
+        <a class="search-card" href="./area/index.html?mode=pref">
+          <div class="search-card-icon">🗾</div>
+          <div class="search-card-label">都道府県から探す</div>
+          <div class="search-card-sub">47都道府県 → 路線 → 駅</div>
+        </a>
+        <a class="search-card" href="./area/index.html?mode=line">
+          <div class="search-card-icon">🚃</div>
+          <div class="search-card-label">路線から探す</div>
+          <div class="search-card-sub">山手線・中央線・東横線…</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- New Posts -->
+    <section class="section">
+      <h2 class="section-title">🆕 新着のランチ</h2>
+      <div class="lunch-card-grid" id="new-cards">
+
+        <div class="lunch-card" data-id="1">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🍜</div>
+            <div class="lunch-card-badge-wrap">
+              <span class="badge badge-new">NEW</span>
+            </div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">麺処 さくら亭</p>
+            <p class="lunch-card-menu">特製醤油ラーメン（大盛り）</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">850</span>
+              <button class="lunch-card-like" data-count="12">🤍 12</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lunch-card" data-id="2">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🍱</div>
+            <div class="lunch-card-badge-wrap">
+              <span class="badge badge-popular">🔥 人気</span>
+            </div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">定食屋 鈴木食堂</p>
+            <p class="lunch-card-menu">日替わり定食 Bセット</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">680</span>
+              <button class="lunch-card-like liked" data-count="97">❤️ 97</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lunch-card" data-id="3">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🥗</div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">Café de Soleil</p>
+            <p class="lunch-card-menu">季節野菜のグリルプレート</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">1,200</span>
+              <button class="lunch-card-like" data-count="8">🤍 8</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lunch-card" data-id="4">
+          <div class="lunch-card-img-wrap">
+            <div class="lunch-card-img lunch-card-img--emoji">🍛</div>
+            <div class="lunch-card-badge-wrap">
+              <span class="badge badge-new">NEW</span>
+            </div>
+          </div>
+          <div class="lunch-card-body">
+            <p class="lunch-card-shop">スパイスカレー Bombay</p>
+            <p class="lunch-card-menu">チキンバターカレー</p>
+            <div class="lunch-card-footer">
+              <span class="lunch-card-price">980</span>
+              <button class="lunch-card-like" data-count="5">🤍 5</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Service Guide -->
+    <section class="section section--guide">
+      <h2 class="section-title">✨ ランチマップって？</h2>
+      <div class="guide-grid">
+        <div class="guide-item">
+          <div class="guide-item-icon">👤</div>
+          <h3 class="guide-item-title">匿名投稿OK</h3>
+          <p class="guide-item-desc">アカウント登録なしで、すぐにランチ情報を投稿できます。気軽にシェア！</p>
+        </div>
+        <div class="guide-item">
+          <div class="guide-item-icon">📋</div>
+          <h3 class="guide-item-title">自分だけのランチログ</h3>
+          <p class="guide-item-desc">ログインすれば、あの日何を食べていくら払ったか、日記代わりに記録できます。</p>
+        </div>
+        <div class="guide-item">
+          <div class="guide-item-icon">🗺️</div>
+          <h3 class="guide-item-title">地図で探せる</h3>
+          <p class="guide-item-desc">駅周辺のランチをマップから発見。Google Mapとシームレスに連携します。</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a class="bottom-nav-item active" href="./index.html">
+      <div class="bottom-nav-icon">🗺️</div>
+      <div>ホーム</div>
+    </a>
+    <a class="bottom-nav-item" href="./area/index.html">
+      <div class="bottom-nav-icon">🔍</div>
+      <div>エリア</div>
+    </a>
+    <a class="bottom-nav-item" href="./post/index.html">
+      <div class="bottom-nav-icon">＋</div>
+      <div>投稿</div>
+    </a>
+    <a class="bottom-nav-item" href="./mypage/index.html">
+      <div class="bottom-nav-icon">👤</div>
+      <div>マイページ</div>
+    </a>
+  </nav>
+
+  <!-- Toast -->
+  <div class="toast-wrap" id="toast-wrap"></div>
+
+  <script src="./jquery-4.0.0.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
