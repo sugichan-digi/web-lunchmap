@@ -111,6 +111,18 @@
 | ip_address | VARCHAR(45) | | 匿名投稿時の重複防止用IP |
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | 実行日時 |
 
+### 8. contact_messages (お問い合わせ)
+サービスへのご意見・ご感想等のメッセージを保持します。
+
+| カラム名 | 型 | 制約 | 説明 |
+| :--- | :--- | :--- | :--- |
+| id | BIGINT | PK, Auto Increment | お問い合わせID |
+| category | VARCHAR(20) | NOT NULL | カテゴリ (impression, request, bug, deletion, general) |
+| body | TEXT | NOT NULL | 本文（1〜1000文字） |
+| user_id | BIGINT | FK (users.id), Nullable | ログインユーザーID（未ログイン時はNULL） |
+| ip_address | VARCHAR(45) | NOT NULL | 送信元IPアドレス |
+| created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | 送信日時 |
+
 ---
 
 ## 設計のポイント

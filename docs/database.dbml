@@ -78,5 +78,14 @@ Table likes {
   created_at timestamp [default: `now()`, note: '実行日時']
 }
 
+Table contact_messages {
+  id bigint [pk, increment, note: 'お問い合わせID']
+  category varchar(20) [not null, note: 'カテゴリ (impression | request | bug | deletion)']
+  body text [not null, note: '本文（1〜1000文字）']
+  user_id bigint [null, ref: > users.id, note: 'ログインユーザーID（未ログイン時はNULL）']
+  ip_address varchar(45) [not null, note: '送信元IPアドレス']
+  created_at timestamp [default: `now()`, note: '送信日時']
+}
+
 // Logical relationship: lunches are linked to the group of stations
 Ref: lunches.station_g_cd > stations.station_g_cd
