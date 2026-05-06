@@ -1,0 +1,82 @@
+// Lunch Map Database Schema (updated for ekidata.jp & frontend requirements)
+
+Table users {
+  id bigint [pk, increment, note: 'ユーザーID']
+  name varchar(50) [not null, note: '表示名']
+  email varchar(255) [unique, not null, note: 'メールアドレス']
+  password_hash varchar(255) [not null, note: 'ハッシュ化されたパスワード']
+  profile_image varchar(255) [note: 'プロフィール画像URL']
+  created_at timestamp [default: `now()`, note: '登録日時']
+  updated_at timestamp [default: `now()`, note: '更新日時']
+}
+
+Table lunches {
+  id bigint [pk, increment, note: '投稿ID']
+  user_id bigint [ref: > users.id, note: '投稿者ID（匿名時はNULL）']
+  station_g_cd int [not null, note: '駅グループコード']
+  category_id int [not null, ref: > categories.id, note: 'カテゴリID']
+  shop_name varchar(100) [not null, note: '店名']
+  menu_name varchar(100) [not null, note: 'メニュー名']
+  price int [not null, note: '価格（円）']
+  image_url varchar(255) [not null, note: 'ランチ写真のURL']
+  latitude decimal(10,8) [not null, note: '位置情報（緯度）']
+  longitude decimal(11,8) [not null, note: '位置情報（経度）']
+  external_map_url text [note: 'Google Maps 等の外部地図リンク']
+  comment text [note: '感想・メモ（任意）']
+  status tinyint [default: 1, note: '状態 (1:公開, 0:非公開/削除)']
+  created_at timestamp [default: `now()`, note: '投稿日時']
+
+  indexes {
+    station_g_cd [name: 'idx_lunch_station_g']
+  }
+}
+
+Table categories {
+  id int [pk, increment, note: 'カテゴリID']
+  name varchar(50) [not null, note: 'カテゴリ名']
+  slug varchar(50) [unique, not null, note: 'スラッグ']
+  icon_emoji varchar(10) [note: 'アイコン用絵文字']
+  sort_order int [default: 0, note: '表示順']
+}
+
+Table prefectures {
+  pref_cd int [pk, note: '都道府県コード (1-47)']
+  pref_name varchar(20) [not null, note: '都道府県名']
+}
+
+Table lines {
+  line_cd int [pk, note: '路線コード']
+  company_cd int [not null, note: '鉄道会社コード']
+  line_name varchar(100) [not null, note: '路線名称']
+  line_color_c varchar(10) [note: '路線カラーコード']
+  pref_cd int [ref: > prefectures.pref_cd, note: '代表的な所属都道府県']
+  e_status int [note: '状態 (0:運用中, 1:運用前, 2:廃止)']
+  e_sort int [note: '並び順']
+}
+
+Table stations {
+  station_cd int [pk, note: '駅コード']
+  station_g_cd int [not null, note: '駅グループコード']
+  station_name varchar(100) [not null, note: '駅名称']
+  line_cd int [ref: > lines.line_cd, note: '路線コード']
+  pref_cd int [ref: > prefectures.pref_cd, note: '都道府県コード']
+  lon decimal(11,8) [not null, note: '経度']
+  lat decimal(10,8) [not null, note: '緯度']
+  e_status int [note: '状態']
+  e_sort int [note: '並び順']
+
+  indexes {
+    station_g_cd [name: 'idx_station_g_cd']
+  }
+}
+
+Table likes {
+  id bigint [pk, increment, note: 'ID']
+  lunch_id bigint [ref: > lunches.id, note: '投稿ID']
+  user_id bigint [ref: > users.id, note: 'ユーザーID（匿名時はNULL）']
+  ip_address varchar(45) [note: '匿名投稿時の重複防止用IP']
+  created_at timestamp [default: `now()`, note: '実行日時']
+}
+
+// Logical relationship: lunches are linked to the group of stations
+Ref: lunches.station_g_cd > stations.station_g_cd

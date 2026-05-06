@@ -1,0 +1,1276 @@
+openapi: 3.0.3
+
+info:
+  title: ランチマップ API
+  version: 1.0.0
+  description: |
+    ランチマップ（今日何食べた？投稿・閲覧サービス）のバックエンド API 仕様書です。
+
+    ## 認証について
+
+    認証が必要なエンドポイント（`DELETE /lunches/{id}`・`GET /mypage/lunches`・
+    `POST /auth/logout`）には Bearer トークンが必要です。
+
+    ログイン・新規登録で取得したトークンを Authorization ヘッダーに付与してください。
+
+    ```
+    Authorization: Bearer {token}
+    ```
+
+    トークンの有効期限は **30 日間** です。
+
+    ## 匿名投稿・いいねについて
+
+    `POST /lunches` および `POST /lunches/{id}/likes` は認証なしで利用できます。
+    ログイン済みの場合は `Authorization` ヘッダーを付与すると投稿者として紐付けられます。
+
+    匿名いいねの重複防止はリクエスト元の IP アドレスで判定します。
+
+    ## 開発モードについて
+
+    本 API はモック実装です。データはサーバー上の JSON ファイルに保存されます。
+    起動コマンド:
+
+    ```bash
+    cd mock
+    php -S localhost:8080 api.php
+    ```
+
+servers:
+  - url: http://localhost:8080
+    description: ローカル開発サーバー（PHP ビルトインサーバー）
+
+tags:
+  - name: システム
+    description: サーバーの死活確認
+  - name: 認証
+    description: ユーザー登録・ログイン・ログアウト
+  - name: マスタデータ
+    description: カテゴリ・都道府県・路線・駅の参照（認証不要・読み取り専用）
+  - name: ランチ投稿
+    description: ランチ情報の投稿・閲覧・削除
+  - name: いいね
+    description: ランチへのいいね（匿名可）
+  - name: マイページ
+    description: ログインユーザー自身の投稿履歴（要認証）
+  - name: ユーザー
+    description: ユーザー公開プロフィール
+
+# デフォルトは認証なし。必要なエンドポイントで個別に security を指定する。
+security: []
+
+paths:
+
+  # ============================================================
+  # システム
+  # ============================================================
+
+  /health:
+    get:
+      tags: [システム]
+      summary: ヘルスチェック
+      description: サーバーが正常に動作しているか確認します。認証不要です。
+      operationId: getHealth
+      responses:
+        '200':
+          description: サーバーが正常に動作しています
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
+                    description: サーバーの現在時刻（ISO 8601 形式）
+                    example: '2026-05-06T12:00:00+09:00'
+
+  # ============================================================
+  # 認証
+  # ============================================================
+
+  /auth/register:
+    post:
+      tags: [認証]
+      summary: 新規ユーザー登録
+      description: |
+        表示名・メールアドレス・パスワードで新規アカウントを作成します。
+        成功するとセッショントークンを即時発行するため、
+        登録後そのままログイン状態として扱えます。
+      operationId: authRegister
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            example:
+              name: ランチ太郎
+              email: taro@example.com
+              password: password123
+      responses:
+        '201':
+          description: 登録成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                表示名未入力:
+                  value:
+                    error: 表示名を入力してください
+                メールアドレス未入力:
+                  value:
+                    error: メールアドレスを入力してください
+                形式不正:
+                  value:
+                    error: メールアドレスの形式が正しくありません
+                パスワード短すぎ:
+                  value:
+                    error: パスワードは8文字以上で入力してください
+        '409':
+          description: メールアドレスが既に登録されている
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: このメールアドレスはすでに登録されています
+
+  /auth/login:
+    post:
+      tags: [認証]
+      summary: ログイン
+      description: |
+        メールアドレスとパスワードで認証し、セッショントークンを取得します。
+        取得したトークンは Authorization ヘッダー（Bearer 方式）で使用します。
+      operationId: authLogin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              email: taro@example.com
+              password: password123
+      responses:
+        '200':
+          description: ログイン成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              example:
+                token: e94ee503786f7886eb4b342088cb9906...
+                user:
+                  id: 1
+                  name: ランチ太郎
+                  email: taro@example.com
+        '400':
+          description: バリデーションエラー（入力値が空など）
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: メールアドレスを入力してください
+        '401':
+          description: 認証失敗（メールアドレスまたはパスワードが誤り）
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: メールアドレスまたはパスワードが正しくありません
+
+  /auth/logout:
+    post:
+      tags: [認証]
+      summary: ログアウト
+      description: |
+        現在のセッションを無効化します。
+        Authorization ヘッダーのトークンを指定してください。
+        トークンが存在しない・すでに無効な場合でも成功として扱います。
+      operationId: authLogout
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: ログアウト成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              example:
+                success: true
+
+  # ============================================================
+  # マスタデータ
+  # ============================================================
+
+  /categories:
+    get:
+      tags: [マスタデータ]
+      summary: カテゴリ一覧の取得
+      description: |
+        料理カテゴリの一覧を `sort_order` 昇順で返します。
+        投稿フォームのプルダウンや絞り込みフィルターに使用します。
+      operationId: listCategories
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Category'
+              example:
+                data:
+                  - id: 1
+                    name: ラーメン・つけ麺
+                    slug: ramen
+                    icon_emoji: 🍜
+                    sort_order: 1
+                  - id: 2
+                    name: 定食・ごはん
+                    slug: teishoku
+                    icon_emoji: 🍱
+                    sort_order: 2
+
+  /prefectures:
+    get:
+      tags: [マスタデータ]
+      summary: 都道府県一覧の取得
+      description: |
+        都道府県の一覧を `pref_cd` 昇順で返します。
+        エリア選択画面の最初のステップで使用します。
+      operationId: listPrefectures
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Prefecture'
+              example:
+                data:
+                  - pref_cd: 13
+                    pref_name: 東京都
+                  - pref_cd: 27
+                    pref_name: 大阪府
+
+  /lines:
+    get:
+      tags: [マスタデータ]
+      summary: 路線一覧の取得
+      description: |
+        運用中（`e_status=0`）の路線一覧を返します。
+        `pref_cd` を指定すると、その都道府県に属する路線のみ返します。
+        エリア選択画面の第 2 ステップ（都道府県 → 路線）で使用します。
+      operationId: listLines
+      parameters:
+        - name: pref_cd
+          in: query
+          required: false
+          description: 都道府県コードで絞り込む
+          schema:
+            type: integer
+            example: 13
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Line'
+              example:
+                data:
+                  - line_cd: 11302
+                    company_cd: 3
+                    line_name: JR山手線
+                    line_color_c: 80C241
+                    pref_cd: 13
+                    e_status: 0
+                    e_sort: 1
+
+  /stations:
+    get:
+      tags: [マスタデータ]
+      summary: 駅一覧の取得
+      description: |
+        運用中（`e_status=0`）の駅一覧を返します。
+        `line_cd` を指定すると、その路線の駅のみ返します。
+
+        複数路線が乗り入れる同一駅は `station_g_cd` で名寄せし、
+        グループごとに代表エントリ 1 件のみ返します。
+
+        エリア選択画面の第 3 ステップ（路線 → 駅）で使用します。
+      operationId: listStations
+      parameters:
+        - name: line_cd
+          in: query
+          required: false
+          description: 路線コードで絞り込む
+          schema:
+            type: integer
+            example: 11302
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Station'
+              example:
+                data:
+                  - station_cd: 1101
+                    station_g_cd: 1001
+                    station_name: 渋谷
+                    line_cd: 11302
+                    pref_cd: 13
+                    lon: 139.70133
+                    lat: 35.65910
+                    e_status: 0
+                    e_sort: 1
+
+  # ============================================================
+  # ランチ投稿
+  # ============================================================
+
+  /lunches:
+    get:
+      tags: [ランチ投稿]
+      summary: ランチ投稿一覧の取得
+      description: |
+        公開中（`status=1`）のランチ投稿一覧を返します。ページネーション対応（10件/ページ）。
+
+        **フィルター**:
+        - `station_g_cd`: 駅グループコードで絞り込む（ランチマップページで使用）
+        - `category_id`: カテゴリで絞り込む
+
+        **ソート** (`sort` パラメーター):
+        - `new`（デフォルト）: 投稿日時の新しい順
+        - `popular`: いいね数の多い順
+        - `cheap`: 価格の安い順
+
+        各投稿には `likes_count`・`category_name`・`category_emoji` が付加されます。
+      operationId: listLunches
+      parameters:
+        - name: station_g_cd
+          in: query
+          required: false
+          description: 駅グループコードで絞り込む（駅データ.jp の `station_g_cd` に対応）
+          schema:
+            type: integer
+            example: 1001
+        - name: category_id
+          in: query
+          required: false
+          description: カテゴリ ID で絞り込む
+          schema:
+            type: integer
+            example: 1
+        - name: sort
+          in: query
+          required: false
+          description: ソート順
+          schema:
+            type: string
+            enum: [new, popular, cheap]
+            default: new
+        - name: page
+          in: query
+          required: false
+          description: ページ番号（1 から始まる）
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+            example: 1
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLunches'
+              example:
+                data:
+                  - id: 1
+                    user_id: 1
+                    station_g_cd: 1001
+                    category_id: 1
+                    shop_name: 麺処 さくら亭
+                    menu_name: 特製醤油ラーメン（大盛り）
+                    price: 850
+                    image_url: https://example.com/photo1.jpg
+                    latitude: 35.66020
+                    longitude: 139.70230
+                    external_map_url: https://maps.google.com/?q=渋谷+麺処さくら亭
+                    comment: スープが濃くて美味しい！
+                    status: 1
+                    created_at: '2026-05-01T12:10:00+09:00'
+                    likes_count: 2
+                    category_name: ラーメン・つけ麺
+                    category_emoji: 🍜
+                total: 7
+                page: 1
+                per_page: 10
+                total_pages: 1
+
+    post:
+      tags: [ランチ投稿]
+      summary: ランチ投稿の作成
+      description: |
+        新しいランチ投稿を作成します。**認証は任意です。**
+
+        - Authorization ヘッダーを付与した場合 → `user_id` に紐付けて保存（マイページで確認可能）
+        - Authorization ヘッダーなしの場合 → `user_id = null`（匿名投稿）
+
+        `station_name` から `station_g_cd` を自動解決します。
+        該当する駅名が見つからない場合は 404 を返します。
+      operationId: createLunch
+      security:
+        - {}
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LunchInput'
+            example:
+              station_name: 渋谷
+              category_id: 1
+              shop_name: 麺処 さくら亭
+              menu_name: 特製醤油ラーメン（大盛り）
+              price: 850
+              image_url: https://example.com/photo.jpg
+              latitude: 35.66020
+              longitude: 139.70230
+              external_map_url: https://maps.google.com/?q=渋谷+麺処さくら亭
+              comment: スープが濃くて美味しい！
+      responses:
+        '201':
+          description: 投稿成功。作成された投稿データを返します。
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Lunch'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                店名未入力:
+                  value:
+                    error: 店名を入力してください
+                メニュー名未入力:
+                  value:
+                    error: メニュー名を入力してください
+                価格不正:
+                  value:
+                    error: 価格を入力してください
+                カテゴリ未選択:
+                  value:
+                    error: カテゴリを選択してください
+                駅名未入力:
+                  value:
+                    error: 駅名を入力してください
+                写真URL未入力:
+                  value:
+                    error: 写真URLを入力してください
+                緯度未入力:
+                  value:
+                    error: 位置情報（緯度）を入力してください
+                経度未入力:
+                  value:
+                    error: 位置情報（経度）を入力してください
+        '404':
+          description: 駅名またはカテゴリが見つからない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                駅が見つからない:
+                  value:
+                    error: 駅が見つかりません
+                カテゴリが見つからない:
+                  value:
+                    error: カテゴリが見つかりません
+
+  /lunches/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ランチ投稿 ID
+        schema:
+          type: integer
+          minimum: 1
+          example: 1
+
+    get:
+      tags: [ランチ投稿]
+      summary: ランチ投稿の詳細取得
+      description: |
+        指定した投稿の詳細情報を返します。
+        公開中（`status=1`）の投稿のみ取得できます。
+
+        レスポンスには以下が付加されます:
+        - `likes_count`: いいね数
+        - `category_name` / `category_emoji`: カテゴリ情報
+        - `user_name`: 投稿者の表示名（匿名の場合は `"匿名ユーザー"`）
+        - `is_liked`: ログイン済みユーザーが既にいいね済みかどうか（未ログイン時は `false`）
+      operationId: getLunch
+      security:
+        - {}
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/LunchDetail'
+              example:
+                data:
+                  id: 1
+                  user_id: 1
+                  station_g_cd: 1001
+                  category_id: 1
+                  shop_name: 麺処 さくら亭
+                  menu_name: 特製醤油ラーメン（大盛り）
+                  price: 850
+                  image_url: https://example.com/photo1.jpg
+                  latitude: 35.66020
+                  longitude: 139.70230
+                  external_map_url: https://maps.google.com/?q=渋谷+麺処さくら亭
+                  comment: スープが濃くて美味しい！
+                  status: 1
+                  created_at: '2026-05-01T12:10:00+09:00'
+                  likes_count: 2
+                  category_name: ラーメン・つけ麺
+                  category_emoji: 🍜
+                  user_name: ランチ太郎
+                  is_liked: false
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [ランチ投稿]
+      summary: ランチ投稿の削除
+      description: |
+        指定した投稿を論理削除します（`status` を `0` に変更）。
+        投稿者本人のみ削除できます。他ユーザーが削除しようとすると 403 を返します。
+      operationId: deleteLunch
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 削除成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  id:
+                    type: integer
+                    description: 削除された投稿 ID
+                    example: 1
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: 権限なし（投稿者本人でない）
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: この投稿を削除する権限がありません
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================================
+  # いいね
+  # ============================================================
+
+  /lunches/{id}/likes:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: いいね対象のランチ投稿 ID
+        schema:
+          type: integer
+          minimum: 1
+          example: 1
+
+    post:
+      tags: [いいね]
+      summary: いいねの追加
+      description: |
+        指定した投稿にいいねを追加します。**認証は任意です。**
+
+        **重複防止ロジック**:
+        - ログイン済みユーザー: 同じ `user_id` による二重いいねを防止
+        - 匿名ユーザー: 同じ IP アドレスによる二重いいねを防止
+
+        すでにいいね済みの場合は 409 を返します。
+        レスポンスにはいいね後の最新の `likes_count` が含まれます。
+      operationId: addLike
+      security:
+        - {}
+        - BearerAuth: []
+      responses:
+        '201':
+          description: いいね成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LikeResponse'
+              example:
+                success: true
+                likes_count: 3
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: すでにいいね済み
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: すでにいいね済みです
+
+  # ============================================================
+  # マイページ
+  # ============================================================
+
+  /mypage/lunches:
+    get:
+      tags: [マイページ]
+      summary: 自分のランチ投稿一覧の取得
+      description: |
+        ログイン中のユーザーが投稿したランチ一覧を、投稿日時の新しい順で返します。
+        論理削除済み（`status=0`）の投稿は含みません。
+        各投稿に `likes_count`・`category_name`・`category_emoji` が付加されます。
+      operationId: listMyLunches
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LunchSummary'
+                  total:
+                    type: integer
+                    description: 投稿総数
+                    example: 3
+              example:
+                data:
+                  - id: 6
+                    user_id: 1
+                    station_g_cd: 1001
+                    category_id: 6
+                    shop_name: pasta NONO
+                    menu_name: ボロネーゼ（自家製麺）
+                    price: 990
+                    image_url: https://example.com/photo6.jpg
+                    latitude: 35.66000
+                    longitude: 139.70000
+                    external_map_url: null
+                    comment: 自家製麺がもちもちで絶品。
+                    status: 1
+                    created_at: '2026-05-04T12:20:00+09:00'
+                    likes_count: 1
+                    category_name: 洋食・パスタ
+                    category_emoji: 🍝
+                total: 3
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ============================================================
+  # ユーザー
+  # ============================================================
+
+  /users/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ユーザー ID
+        schema:
+          type: integer
+          minimum: 1
+          example: 1
+
+    get:
+      tags: [ユーザー]
+      summary: ユーザー公開プロフィールの取得
+      description: |
+        指定したユーザーの公開プロフィールを返します。認証不要です。
+        メールアドレス・パスワードなどの非公開情報は含みません。
+        `lunch_count` にはそのユーザーの公開投稿数が付加されます。
+      operationId: getUser
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/UserPublic'
+              example:
+                data:
+                  id: 1
+                  name: ランチ太郎
+                  profile_image: null
+                  created_at: '2026-04-01T09:00:00+09:00'
+                  lunch_count: 3
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+# ============================================================
+# 共通コンポーネント定義
+# ============================================================
+
+components:
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: |
+        ログイン・新規登録で取得したトークンを指定してください。
+
+        形式: `Authorization: Bearer {token}`
+
+  schemas:
+
+    # ---------- マスタデータ ----------
+
+    Category:
+      type: object
+      description: 料理カテゴリ
+      properties:
+        id:
+          type: integer
+          description: カテゴリ ID
+          example: 1
+        name:
+          type: string
+          description: カテゴリ名
+          example: ラーメン・つけ麺
+        slug:
+          type: string
+          description: URL スラッグ
+          example: ramen
+        icon_emoji:
+          type: string
+          description: アイコン絵文字
+          example: 🍜
+        sort_order:
+          type: integer
+          description: 表示順
+          example: 1
+
+    Prefecture:
+      type: object
+      description: 都道府県（駅データ.jp の pref.csv 準拠）
+      properties:
+        pref_cd:
+          type: integer
+          description: 都道府県コード（1〜47）
+          example: 13
+        pref_name:
+          type: string
+          description: 都道府県名
+          example: 東京都
+
+    Line:
+      type: object
+      description: 路線（駅データ.jp の line.csv 準拠）
+      properties:
+        line_cd:
+          type: integer
+          description: 路線コード
+          example: 11302
+        company_cd:
+          type: integer
+          description: 鉄道会社コード
+          example: 3
+        line_name:
+          type: string
+          description: 路線名称
+          example: JR山手線
+        line_color_c:
+          type: string
+          nullable: true
+          description: 路線カラーコード（16進数、# なし）
+          example: 80C241
+        pref_cd:
+          type: integer
+          description: 代表的な所属都道府県コード
+          example: 13
+        e_status:
+          type: integer
+          description: '状態（0: 運用中、1: 運用前、2: 廃止）'
+          example: 0
+        e_sort:
+          type: integer
+          description: 表示順
+          example: 1
+
+    Station:
+      type: object
+      description: 駅（駅データ.jp の station.csv 準拠、station_g_cd でユニーク化済み）
+      properties:
+        station_cd:
+          type: integer
+          description: 駅コード
+          example: 1101
+        station_g_cd:
+          type: integer
+          description: |
+            駅グループコード。同一駅が複数路線に存在する場合に共通の値を持つ。
+            ランチ投稿は `station_g_cd` 単位で紐付けられる。
+          example: 1001
+        station_name:
+          type: string
+          description: 駅名
+          example: 渋谷
+        line_cd:
+          type: integer
+          description: 路線コード
+          example: 11302
+        pref_cd:
+          type: integer
+          description: 都道府県コード
+          example: 13
+        lon:
+          type: number
+          format: double
+          description: 経度
+          example: 139.70133
+        lat:
+          type: number
+          format: double
+          description: 緯度
+          example: 35.65910
+        e_status:
+          type: integer
+          description: '状態（0: 運用中）'
+          example: 0
+        e_sort:
+          type: integer
+          description: 表示順
+          example: 1
+
+    # ---------- ランチ投稿 ----------
+
+    Lunch:
+      type: object
+      description: ランチ投稿（作成時レスポンス）
+      properties:
+        id:
+          type: integer
+          description: 投稿 ID（サーバー側で自動採番）
+          example: 1
+        user_id:
+          type: integer
+          nullable: true
+          description: 投稿者ユーザー ID。匿名投稿の場合は `null`。
+          example: 1
+        station_g_cd:
+          type: integer
+          description: 駅グループコード
+          example: 1001
+        category_id:
+          type: integer
+          description: カテゴリ ID
+          example: 1
+        shop_name:
+          type: string
+          description: 店名
+          example: 麺処 さくら亭
+        menu_name:
+          type: string
+          description: メニュー名
+          example: 特製醤油ラーメン（大盛り）
+        price:
+          type: integer
+          description: 価格（円）
+          example: 850
+        image_url:
+          type: string
+          description: ランチ写真の URL
+          example: https://example.com/photo1.jpg
+        latitude:
+          type: number
+          format: double
+          description: 緯度
+          example: 35.66020
+        longitude:
+          type: number
+          format: double
+          description: 経度
+          example: 139.70230
+        external_map_url:
+          type: string
+          nullable: true
+          description: Google Maps 等の外部地図リンク
+          example: https://maps.google.com/?q=渋谷+麺処さくら亭
+        comment:
+          type: string
+          nullable: true
+          description: 感想・メモ
+          example: スープが濃くて美味しい！
+        status:
+          type: integer
+          description: '状態（1: 公開、0: 削除済み）'
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          description: 投稿日時（ISO 8601 形式）
+          example: '2026-05-01T12:10:00+09:00'
+
+    LunchSummary:
+      description: ランチ投稿（一覧・マイページ用。いいね数・カテゴリ情報付き）
+      allOf:
+        - $ref: '#/components/schemas/Lunch'
+        - type: object
+          properties:
+            likes_count:
+              type: integer
+              description: いいね数
+              example: 2
+            category_name:
+              type: string
+              description: カテゴリ名
+              example: ラーメン・つけ麺
+            category_emoji:
+              type: string
+              description: カテゴリ絵文字
+              example: 🍜
+
+    LunchDetail:
+      description: ランチ投稿詳細（投稿者名・いいね済みフラグ付き）
+      allOf:
+        - $ref: '#/components/schemas/LunchSummary'
+        - type: object
+          properties:
+            user_name:
+              type: string
+              description: |
+                投稿者の表示名。
+                匿名投稿は `"匿名ユーザー"`、退会済みユーザーは `"退会済みユーザー"`。
+              example: ランチ太郎
+            is_liked:
+              type: boolean
+              description: |
+                ログイン中のユーザーがこの投稿をいいね済みかどうか。
+                未ログイン時は常に `false`。
+              example: false
+
+    LunchInput:
+      type: object
+      description: ランチ投稿の作成リクエストボディ
+      required:
+        - station_name
+        - category_id
+        - shop_name
+        - menu_name
+        - price
+        - image_url
+        - latitude
+        - longitude
+      properties:
+        station_name:
+          type: string
+          description: 駅名（`stations` テーブルの `station_name` に一致する必要がある）
+          example: 渋谷
+        category_id:
+          type: integer
+          description: カテゴリ ID
+          example: 1
+        shop_name:
+          type: string
+          maxLength: 100
+          description: 店名
+          example: 麺処 さくら亭
+        menu_name:
+          type: string
+          maxLength: 100
+          description: メニュー名
+          example: 特製醤油ラーメン（大盛り）
+        price:
+          type: integer
+          minimum: 1
+          description: 価格（円、1以上）
+          example: 850
+        image_url:
+          type: string
+          description: ランチ写真の URL
+          example: https://example.com/photo.jpg
+        latitude:
+          type: number
+          format: double
+          description: 位置情報（緯度）
+          example: 35.66020
+        longitude:
+          type: number
+          format: double
+          description: 位置情報（経度）
+          example: 139.70230
+        external_map_url:
+          type: string
+          description: Google Maps 等の外部地図リンク（任意）
+          example: https://maps.google.com/?q=渋谷+麺処さくら亭
+        comment:
+          type: string
+          description: 感想・メモ（任意）
+          example: スープが濃くて美味しい！
+
+    # ---------- いいね ----------
+
+    LikeResponse:
+      type: object
+      description: いいね追加成功時のレスポンス
+      properties:
+        success:
+          type: boolean
+          example: true
+        likes_count:
+          type: integer
+          description: いいね後の最新いいね数
+          example: 3
+
+    # ---------- ユーザー ----------
+
+    UserPublic:
+      type: object
+      description: ユーザー公開プロフィール（メールアドレスなど非公開情報を除く）
+      properties:
+        id:
+          type: integer
+          description: ユーザー ID
+          example: 1
+        name:
+          type: string
+          description: 表示名
+          example: ランチ太郎
+        profile_image:
+          type: string
+          nullable: true
+          description: プロフィール画像 URL
+          example: null
+        created_at:
+          type: string
+          format: date-time
+          description: 登録日時（ISO 8601 形式）
+          example: '2026-04-01T09:00:00+09:00'
+        lunch_count:
+          type: integer
+          description: 公開中の投稿数
+          example: 3
+
+    # ---------- 認証リクエスト ----------
+
+    RegisterRequest:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          description: 表示名（50文字以内）
+          example: ランチ太郎
+        email:
+          type: string
+          format: email
+          description: メールアドレス（一意である必要があります）
+          example: taro@example.com
+        password:
+          type: string
+          format: password
+          minLength: 8
+          description: パスワード（8文字以上）
+          example: password123
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: 登録済みのメールアドレス
+          example: taro@example.com
+        password:
+          type: string
+          format: password
+          description: パスワード
+          example: password123
+
+    # ---------- 認証レスポンス ----------
+
+    AuthResponse:
+      type: object
+      description: 認証成功時のレスポンス
+      properties:
+        token:
+          type: string
+          description: |
+            セッショントークン。有効期限は 30 日間。
+            以降のリクエストで `Authorization: Bearer {token}` として使用する。
+          example: e94ee503786f7886eb4b342088cb99060c4285a15e472a66e6a3e76df26639a3
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: ランチ太郎
+            email:
+              type: string
+              format: email
+              example: taro@example.com
+
+    # ---------- ページネーション ----------
+
+    PaginatedLunches:
+      type: object
+      description: ランチ投稿一覧のページネーションレスポンス
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/LunchSummary'
+        total:
+          type: integer
+          description: 絞り込み条件に一致する全件数
+          example: 7
+        page:
+          type: integer
+          description: 現在のページ番号
+          example: 1
+        per_page:
+          type: integer
+          description: 1 ページあたりの件数
+          example: 10
+        total_pages:
+          type: integer
+          description: 総ページ数
+          example: 1
+
+    # ---------- 汎用レスポンス ----------
+
+    SuccessResponse:
+      type: object
+      description: 処理成功時の汎用レスポンス
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          nullable: true
+          description: 処理結果の説明
+          example: ログアウトしました
+
+    ErrorResponse:
+      type: object
+      description: エラー時のレスポンス
+      properties:
+        error:
+          type: string
+          description: エラーの説明
+          example: 指定された投稿が見つかりません
+
+  responses:
+
+    Unauthorized:
+      description: |
+        認証エラー。以下のいずれかの原因が考えられます：
+        - Authorization ヘッダーが存在しない
+        - トークンが無効
+        - トークンが期限切れ（有効期限 30 日）
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            トークンなし:
+              value:
+                error: 認証が必要です
+            無効または期限切れ:
+              value:
+                error: セッションが無効または期限切れです
+
+    NotFound:
+      description: 指定したリソースが見つからない
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: 投稿が見つかりません
