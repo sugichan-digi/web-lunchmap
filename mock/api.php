@@ -18,6 +18,7 @@ define('CATEGORIES_FILE',   DATA_DIR . '/categories.json');
 define('PREFECTURES_FILE',  DATA_DIR . '/prefectures.json');
 define('LINES_FILE',        DATA_DIR . '/lines.json');
 define('STATIONS_FILE',     DATA_DIR . '/stations.json');
+define('CONTACTS_FILE',     DATA_DIR . '/contacts.json');
 
 // ===== JSON Helpers =====
 
@@ -133,6 +134,7 @@ match ($seg0) {
     'lunches'     => handleLunches($method, $id, $seg2),
     'mypage'      => handleMypage($seg1, $method),
     'users'       => handleUsers($method, $id),
+    'contacts'    => handleContacts($method),
     default       => jsonError('Not Found', 404),
 };
 
@@ -581,6 +583,50 @@ function mypageLunches(int $userId): never
     usort($lunches, fn($a, $b) => strcmp($b['created_at'], $a['created_at']));
 
     jsonOk(['data' => $lunches, 'total' => count($lunches)]);
+}
+
+// ===== /contacts =====
+
+function handleContacts(string $method): never
+{
+    if ($method !== 'POST') jsonError('Method Not Allowed', 405);
+    contactsCreate();
+}
+
+function contactsCreate(): never
+{
+    $body     = requestBody();
+    $category = trim($body['category'] ?? '');
+    $text     = trim($body['body'] ?? '');
+
+    $validCategories = ['impression', 'request', 'bug', 'deletion'];
+
+    if (!$category || !in_array($category, $validCategories, true)) {
+        jsonError('カテゴリを選択してください');
+    }
+    if (!$text) {
+        jsonError('お問い合わせ内容を入力してください');
+    }
+    if (mb_strlen($text) > 1000) {
+        jsonError('お問い合わせ内容は1000文字以内で入力してください');
+    }
+
+    $userId   = optionalAuth();
+    $ip       = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+    $contacts = readJson(CONTACTS_FILE);
+
+    $newContact = [
+        'id'         => nextId($contacts),
+        'category'   => $category,
+        'body'       => $text,
+        'user_id'    => $userId,
+        'ip_address' => $ip,
+        'created_at' => date('c'),
+    ];
+    $contacts[] = $newContact;
+    writeJson(CONTACTS_FILE, $contacts);
+
+    jsonOk(['data' => $newContact], 201);
 }
 
 // ===== /users/:id =====

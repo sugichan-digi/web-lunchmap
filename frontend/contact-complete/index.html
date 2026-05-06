@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ランチマップ — 送信完了">
+  <title>送信完了 — ランチマップ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design-system/style.css">
+  <link rel="stylesheet" href="../contact/style.css">
+  <style>
+    .complete-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 120px);
+      text-align: center;
+      padding: var(--space-6);
+    }
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--color-success-bg, #e8f5e9);
+      color: var(--color-success, #2e7d32);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin-bottom: var(--space-6);
+      animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes pop {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+    .complete-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--color-text-main);
+      margin-bottom: var(--space-2);
+    }
+    .complete-text {
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-8);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-spacer"></div>
+      <span class="header-title">送信完了</span>
+      <div class="header-spacer"></div>
+    </div>
+  </header>
+
+  <div class="complete-container">
+    <div class="success-icon">✓</div>
+    <h1 class="complete-title">送信が完了しました</h1>
+    <p class="complete-text">
+      お問い合わせいただきありがとうございます。<br>
+      いただいた内容はすべて確認し、サービスの改善に役立てさせていただきます。
+    </p>
+    <a href="../index.html" class="btn btn-primary btn-lg" style="min-width: 200px;">
+      トップページへ戻る
+    </a>
+  </div>
+
+  <script src="../jquery-4.0.0.min.js"></script>
+  <script src="../common.js"></script>
+</body>
+</html>
