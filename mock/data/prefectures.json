@@ -1,0 +1,12 @@
+[
+  { "pref_cd": 1,  "pref_name": "北海道" },
+  { "pref_cd": 11, "pref_name": "埼玉県" },
+  { "pref_cd": 12, "pref_name": "千葉県" },
+  { "pref_cd": 13, "pref_name": "東京都" },
+  { "pref_cd": 14, "pref_name": "神奈川県" },
+  { "pref_cd": 23, "pref_name": "愛知県" },
+  { "pref_cd": 26, "pref_name": "京都府" },
+  { "pref_cd": 27, "pref_name": "大阪府" },
+  { "pref_cd": 28, "pref_name": "兵庫県" },
+  { "pref_cd": 40, "pref_name": "福岡県" }
+]

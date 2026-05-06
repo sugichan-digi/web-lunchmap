@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "ランチ太郎",
+    "email": "taro@example.com",
+    "password_hash": "$2y$12$zI8ifztzIdOfJGrdop.r5uo2PtNZx0FRSjsOs5S.Oy.BDtU8hYUk.",
+    "profile_image": null,
+    "created_at": "2026-04-01T09:00:00+09:00",
+    "updated_at": "2026-04-01T09:00:00+09:00"
+  },
+  {
+    "id": 2,
+    "name": "花子さん",
+    "email": "hanako@example.com",
+    "password_hash": "$2y$12$zI8ifztzIdOfJGrdop.r5uo2PtNZx0FRSjsOs5S.Oy.BDtU8hYUk.",
+    "profile_image": null,
+    "created_at": "2026-04-05T12:00:00+09:00",
+    "updated_at": "2026-04-05T12:00:00+09:00"
+  }
+]

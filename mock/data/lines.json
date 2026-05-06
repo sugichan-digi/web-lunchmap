@@ -1,0 +1,12 @@
+[
+  { "line_cd": 11302, "company_cd": 3,   "line_name": "JR山手線",         "line_color_c": "80C241", "pref_cd": 13, "e_status": 0, "e_sort": 1 },
+  { "line_cd": 11301, "company_cd": 3,   "line_name": "JR中央線",         "line_color_c": "F15A22", "pref_cd": 13, "e_status": 0, "e_sort": 2 },
+  { "line_cd": 11312, "company_cd": 99,  "line_name": "東京メトロ銀座線",  "line_color_c": "F7A800", "pref_cd": 13, "e_status": 0, "e_sort": 3 },
+  { "line_cd": 11313, "company_cd": 99,  "line_name": "東京メトロ丸ノ内線","line_color_c": "E60012", "pref_cd": 13, "e_status": 0, "e_sort": 4 },
+  { "line_cd": 11308, "company_cd": 100, "line_name": "都営大江戸線",      "line_color_c": "B5006B", "pref_cd": 13, "e_status": 0, "e_sort": 5 },
+  { "line_cd": 11320, "company_cd": 70,  "line_name": "東急東横線",        "line_color_c": "E4002B", "pref_cd": 14, "e_status": 0, "e_sort": 6 },
+  { "line_cd": 11401, "company_cd": 3,   "line_name": "JR東海道線",        "line_color_c": "F15A22", "pref_cd": 14, "e_status": 0, "e_sort": 7 },
+  { "line_cd": 11501, "company_cd": 4,   "line_name": "JR大阪環状線",      "line_color_c": "F4A100", "pref_cd": 27, "e_status": 0, "e_sort": 8 },
+  { "line_cd": 11601, "company_cd": 50,  "line_name": "阪急神戸線",        "line_color_c": "8B4513", "pref_cd": 28, "e_status": 0, "e_sort": 9 },
+  { "line_cd": 21601, "company_cd": 4,   "line_name": "JR鹿児島本線",      "line_color_c": "F15A22", "pref_cd": 40, "e_status": 0, "e_sort": 10 }
+]
