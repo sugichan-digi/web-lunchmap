@@ -1,7 +1,7 @@
 {
   "scripts": {
     "apidoc": "npx @redocly/cli build-docs ./docs/openapi.yaml -o ./backend/public/docs/index.html",
-    "dbml2sql": "npx dbml2sql ./docs/database.dbml --mysql -o ./docs/sql/database.sql"
+    "dbml2sql": "npx dbml2sql ./docs/database.dbml --mysql -o ./docs/database.sql"
   },
   "dependencies": {
     "@dbml/cli": "^7.1.1",
